@@ -1,0 +1,28 @@
+{
+  "name": "redux-search",
+  "version": "1.0.0",
+  "description": "Redux bindings for client-side search",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/treasure-data/redux-search.git"
+  },
+  "author": "Treasure Data",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/treasure-data/redux-search/issues"
+  },
+  "homepage": "https://github.com/treasure-data/redux-search#readme",
+  "devDependencies": {
+    "expect": "^1.13.0",
+    "immutable": "^3.7.5",
+    "webpack": "^1.12.9"
+  },
+  "dependencies": {
+    "node-uuid": "^1.4.7",
+    "worker-loader": "^0.7.0"
+  }
+}
