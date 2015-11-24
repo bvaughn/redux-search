@@ -9,7 +9,7 @@ import uuid from 'node-uuid'
 /**
  * Client side, full text search utility.
  */
-export default class Main {
+export default class SearchWorkerLoader {
 
   /**
    * Constructor.
@@ -40,7 +40,7 @@ export default class Main {
    * @param uid Uniquely identifies a searchable object
    * @param text Text to associate with uid
    */
-  indexDocument (uid: any, text: string): Main {
+  indexDocument (uid: any, text: string): SearchWorkerLoader {
     this.worker.postMessage({
       method: 'indexDocument',
       text,

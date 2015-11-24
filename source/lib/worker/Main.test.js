@@ -1,7 +1,7 @@
-import Main from './Main'
+import SearchIndexWorker from './SearchIndexWorker'
 import expect from 'expect.js'
 
-describe('Main', () => {
+describe('SearchIndexWorker', () => {
   class StubWorker {
     constructor () {
       this.indexedDocumentMap = {}
@@ -40,7 +40,7 @@ describe('Main', () => {
   let search
 
   beforeEach(() => {
-    search = new Main(StubWorker)
+    search = new SearchIndexWorker(StubWorker)
   })
 
   describe('indexDocument', () => {
@@ -64,80 +64,66 @@ describe('Main', () => {
       expect(search.worker.searchQueue[0].query).to.equal('cat')
     })
 
-    it('should resolve the returned Promise on search completion', (done) => {
+    it('should resolve the returned Promise on search completion', async () => {
       const promise = search.search('cat')
-      promise.then(result => {
-        expect(result).to.eql(['a', 'b'])
-        done()
-      })
       search.worker.resolveSearch(0, ['a', 'b'])
+
+      const result = await promise
+      expect(result).to.eql(['a', 'b'])
     })
 
-    it('should resolve multple concurrent searches', (done) => {
-      Promise.all([
+    it('should resolve multiple concurrent searches', async () => {
+      const promises = Promise.all([
         search.search('cat'),
         search.search('dog')
-      ]).then(result => {
-        done()
-      })
-
+      ])
       search.worker.resolveSearch(0, ['a'])
       search.worker.resolveSearch(1, ['a', 'b'])
+      await promises
     })
 
-    it('should resolve searches in the correct order', (done) => {
-      const promises = [
+    it('should resolve searches in the correct order', async () => {
+      const results = []
+      const promiseList = [
         search.search('cat'),
         search.search('dog'),
         search.search('rat')
-      ]
-
-      let results = []
-      promises.forEach(promise =>
-        promise.then(result => results.push(result))
-      )
-
-      Promise.all(promises).then(result => {
-        expect(results.length).to.equal(3)
-        expect(results[0]).to.eql(['0'])
-        expect(results[1]).to.eql(['1'])
-        expect(results[2]).to.eql(['2'])
-        done()
-      })
+      ].map(promise => promise.then(result => results.push(result)))
 
       search.worker.resolveSearch(1, ['1'])
       search.worker.resolveSearch(0, ['0'])
       search.worker.resolveSearch(2, ['2'])
+
+      await Promise.all(promiseList)
+      const [r1, r2, r3] = results
+      expect(r1).to.eql(['0'])
+      expect(r2).to.eql(['1'])
+      expect(r3).to.eql(['2'])
     })
 
-    it('should not reject all searches if one fails', (done) => {
+    it('should not reject all searches if one fails', async () => {
+      const errors = []
+      const results = []
       const promises = [
         search.search('cat'),
         search.search('dog')
-      ]
-
-      let results = []
-      let errors = []
-      promises.forEach(promise =>
-        promise.then(
-          result => results.push(result),
-          error => errors.push(error)
-        )
-      )
-
-      Promise.all(promises).then(
-        () => {},
-        () => {
-          expect(results.length).to.equal(1)
-          expect(results[0]).to.eql(['0'])
-          expect(errors.length).to.equal(1)
-          expect(errors[0].message).to.eql('1')
-          done()
-        }
+      ].map(promise =>
+        promise
+          .then(result => results.push(result))
+          .catch(error => errors.push(error))
       )
 
       search.worker.rejectSearch(1, new Error('1'))
       search.worker.resolveSearch(0, ['0'])
+
+      try {
+        await Promise.all(promises)
+      } catch (err) {}
+
+      expect(results.length).to.equal(1)
+      expect(results[0]).to.eql(['0'])
+      expect(errors.length).to.equal(1)
+      expect(errors[0].message).to.equal('1')
     })
   })
 })
