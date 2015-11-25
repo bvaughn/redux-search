@@ -12,6 +12,3 @@ coverage
 
 # OS X
 .DS_Store
-
-# Config
-.consolerc
