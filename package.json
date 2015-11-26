@@ -4,7 +4,7 @@
   "description": "Redux bindings for client-side search",
   "main": "index.js",
   "scripts": {
-    "test": "babel-node node_modules/.bin/blue-tape source/**/*.test.js | tspec"
+    "test": "babel-node node_modules/.bin/blue-tape src/**/*.test.js | tspec"
   },
   "repository": {
     "type": "git",
