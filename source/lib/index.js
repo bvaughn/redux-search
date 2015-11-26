@@ -1,5 +1,7 @@
 /** @flow */
-export default from './worker/Main'
-export SearchWorkerLoader from './worker/Main'
-export Search from './Search'
-export SearchIndex from './SearchIndex'
+import Search from './Search'
+import SearchIndex from './SearchIndex'
+import SearchWorkerLoader from './worker/Main'
+
+export default SearchWorkerLoader
+export { Search, SearchIndex, SearchWorkerLoader }
