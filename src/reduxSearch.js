@@ -7,7 +7,7 @@ import { WorkerSearchApi } from './SearchApi'
 import Immutable from 'immutable'
 
 /**
- * Creates higher-order search store to be composeed with other store enhancers.
+ * Creates higher-order search store to be composed with other store enhancers.
  * This function accepts the following, optional parameters (via a params Object):
  * • resourceIndexes:
  *     Maps searchable resources to search configurations.
