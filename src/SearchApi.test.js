@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'blue-tape'
 import { SearchApi } from './SearchApi'
 
 function getSearchApi () {
@@ -21,5 +21,4 @@ test('SearchApi should return documents ids for any searchable field matching a 
   const ids = await searchApi.performSearch('documents', 'One')
   t.equal(ids.length, 1)
   t.equal(ids[0], 1)
-  t.end()
 })

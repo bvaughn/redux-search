@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'blue-tape'
 import SearchWorkerLoader from './Main'
 
 class StubWorker {
@@ -65,7 +65,6 @@ test('SearchWorkerLoader search should resolve the returned Promise on search co
 
   const result = await promise
   t.deepLooseEqual(result, ['a', 'b'])
-  t.end()
 })
 
 test('SearchWorkerLoader search should resolve multiple concurrent searches', async t => {
@@ -77,7 +76,6 @@ test('SearchWorkerLoader search should resolve multiple concurrent searches', as
   search.worker.resolveSearch(0, ['a'])
   search.worker.resolveSearch(1, ['a', 'b'])
   await promises
-  t.end()
 })
 
 test('SearchWorkerLoader search should resolve searches in the correct order', async t => {
@@ -98,7 +96,6 @@ test('SearchWorkerLoader search should resolve searches in the correct order', a
   t.deepLooseEqual(r1, ['0'])
   t.deepLooseEqual(r2, ['1'])
   t.deepLooseEqual(r3, ['2'])
-  t.end()
 })
 
 test('SearchWorkerLoader search should not reject all searches if one fails', async t => {
@@ -125,5 +122,4 @@ test('SearchWorkerLoader search should not reject all searches if one fails', as
   t.deepLooseEqual(results[0], ['0'])
   t.equal(errors.length, 1)
   t.equal(errors[0].message, '1')
-  t.end()
 })

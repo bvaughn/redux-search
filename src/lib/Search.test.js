@@ -1,4 +1,4 @@
-import test from 'tape'
+import test from 'blue-tape'
 import Immutable from 'immutable'
 import Search from './Search'
 
