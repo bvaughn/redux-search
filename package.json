@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "test": "babel-node node_modules/.bin/tape src/*.test.js src/**/*.test.js src/**/**/*.test.js | tspec",
+    "test": "babel-node node_modules/.bin/tape 'src/**/*.test.js' | tspec",
     "watch": "watch 'clear && npm run lint -s && npm run test -s' src"
   },
   "repository": {
