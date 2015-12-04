@@ -1,7 +1,7 @@
 import { combineReducers, createStore } from 'redux'
 import reduxSearch from './reduxSearch'
 import reducer from './reducer'
-import test from 'blue-tape'
+import test from 'tape'
 
 function createMiddleware (params = {}) {
   return reduxSearch(params)(createStore)(

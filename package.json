@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "test": "babel-node node_modules/.bin/blue-tape src/*.test.js src/**/*.test.js src/**/**/*.test.js | tspec",
+    "test": "babel-node node_modules/.bin/tape src/*.test.js src/**/*.test.js src/**/**/*.test.js | tspec",
     "watch": "watch 'clear && npm run lint -s && npm run test -s' src"
   },
   "repository": {
@@ -28,11 +28,11 @@
   "devDependencies": {
     "babel": "5.8.23",
     "babel-eslint": "^4.1.6",
-    "blue-tape": "^0.1.11",
     "immutable": "^3.7.5",
     "redux-mock-store": "0.0.3",
     "standard": "^5.4.1",
     "tap-spec": "4.1.0",
+    "tape": "^4.2.2",
     "watch": "^0.16.0"
   },
   "dependencies": {
