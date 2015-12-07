@@ -92,3 +92,15 @@ test('reduxSearch should auto-update index any time a searchable resource change
   t.equal(searchApi.indexResourceCalls.length, 2)
   t.end()
 })
+
+test('reduxSearch should not auto-index searchable resources if no resourceSelector is specified', t => {
+  let searchApi = new MockSearchApi()
+  const resourceIndexes = { users: ['name'] }
+  const store = createMiddleware({ resourceIndexes, searchApi })
+
+  // Simulate a resource update
+  store.dispatch({ type: 'fakeResourceUpdate' })
+
+  t.equal(searchApi.indexResourceCalls.length, 0)
+  t.end()
+})
