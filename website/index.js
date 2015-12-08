@@ -10,6 +10,7 @@ import Card from './components/Card'
 import ContactTable from './components/ContactTable'
 import ControlBar from './components/ControlBar'
 import createAppStore from './createAppStore'
+import Footer from './components/Footer'
 import Header from './components/Header'
 import Summary from './components/Summary'
 import './global.css'
@@ -35,6 +36,7 @@ function Application () {
         <ContactTable/>
         <Summary/>
       </Card>
+      <Footer/>
     </div>
   )
 }
