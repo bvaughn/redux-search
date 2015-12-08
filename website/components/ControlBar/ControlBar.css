@@ -10,20 +10,21 @@
   border: none;
   line-height: 2rem;
   padding: 0 1rem;
-  background-color: #4caf50;
+  background-color: #2196f3;
   color: white;
-  text-transform: uppercase;
-  font-weight: bold;
+  font-size: 1em;
   border-radius: .25em;
   cursor: pointer;
-  margin-right: .5rem;
 }
 
 .SearchInput {
-  line-height: 2rem;
-  padding: 0 .5rem;
-  margin-right: .5rem;
-  width: 15rem;
+  border: 0;
+  border-bottom: 1px solid #EEE;
+  padding: 5px 0;
+  font-size: 1em;
+  font-weight: 300;
+  background-color: transparent;
+  margin: 0 1rem;
 }
 .SearchInput:disabled {
   opacity: .65;

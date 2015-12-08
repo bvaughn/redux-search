@@ -5,9 +5,13 @@ import styles from './Header.css'
 export default function Header () {
   return (
     <nav className={styles.Header}>
-      <h1 className={styles.Title}>
-        redux-search
-      </h1>
+      <img
+        title='Redux Search'
+        width={315}
+        height={100}
+        src='https://cloud.githubusercontent.com/assets/29597/11669135/e76f8ef4-9daf-11e5-88f0-ed8a018ba166.png'
+      />
+
       <ul className={styles.NavList}>
         <NavLink
           text='Source'

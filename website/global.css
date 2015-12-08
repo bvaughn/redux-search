@@ -1,7 +1,8 @@
 body {
-  background-color: #eee;
+  background-color: #374046;
   font-family: Roboto, 'Open Sans', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -9,4 +10,12 @@ body {
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }

@@ -6,6 +6,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import Card from './components/Card'
 import ContactTable from './components/ContactTable'
 import ControlBar from './components/ControlBar'
 import createAppStore from './createAppStore'
@@ -29,9 +30,11 @@ function Application () {
   return (
     <div>
       <Header/>
-      <Summary/>
-      <ControlBar/>
-      <ContactTable/>
+      <Card>
+        <ControlBar/>
+        <ContactTable/>
+        <Summary/>
+      </Card>
     </div>
   )
 }

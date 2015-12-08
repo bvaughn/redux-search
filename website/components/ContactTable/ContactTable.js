@@ -13,9 +13,9 @@ export function ContactTable ({ contacts, filteredContactIds }) {
         className={styles.FlexTable}
         rowClassName={styles.FlexTableRow}
         width={700}
-        height={300}
-        headerHeight={20}
-        rowHeight={20}
+        height={200}
+        headerHeight={30}
+        rowHeight={30}
         rowsCount={filteredContactIds ? filteredContactIds.size : 0}
         rowGetter={index => contacts.get(filteredContactIds.get(index))}
       >
