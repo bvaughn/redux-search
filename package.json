@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
+    "start": "webpack-dev-server --hot --inline --config webpack.config.dev.js",
     "test": "babel-node node_modules/.bin/tape 'src/**/*.test.js' | tspec",
     "watch": "watch 'clear && npm run lint -s && npm run test -s' src"
   },
@@ -26,16 +27,28 @@
     ]
   },
   "devDependencies": {
-    "babel": "5.8.23",
+    "babel": "^5.8.34",
+    "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.6",
+    "babel-loader": "^5.4.0",
+    "babel-plugin-react-transform": "^1.1.1",
+    "css-loader": "^0.23.0",
+    "cssnext": "^1.8.4",
+    "cssnext-loader": "^1.0.1",
+    "html-webpack-plugin": "^1.7.0",
     "immutable": "^3.7.5",
+    "keymirror": "^0.1.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
     "standard": "^5.4.1",
+    "style-loader": "^0.13.0",
     "tap-spec": "4.1.0",
     "tape": "^4.2.2",
-    "watch": "^0.16.0"
+    "watch": "^0.16.0",
+    "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.0.14",
     "node-uuid": "^1.4.7",
     "redux": "^3.0.4"
   }
