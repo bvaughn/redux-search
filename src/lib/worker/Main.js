@@ -3,7 +3,6 @@
  * This interface exposes web worker search capabilities to the UI thread.
  * @flow
  */
-import SearchIndexWorker from 'worker?inline=true!./Worker'
 import uuid from 'node-uuid'
 
 /**
@@ -14,7 +13,13 @@ export default class SearchWorkerLoader {
   /**
    * Constructor.
    */
-  constructor (WorkerClass = SearchIndexWorker) {
+  constructor (WorkerClass) {
+    // Defer worker import until construction to avoid testing error:
+    // Error: Cannot find module 'worker!./[workername]'
+    if (!WorkerClass) {
+      WorkerClass = require('worker?inline=true!./Worker')
+    }
+
     // Maintain context if references are passed around
     this.indexDocument = this.indexDocument.bind(this)
     this.search = this.search.bind(this)
