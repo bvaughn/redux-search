@@ -10,6 +10,7 @@ import ContactTable from './components/ContactTable'
 import ControlBar from './components/ControlBar'
 import createAppStore from './createAppStore'
 import Header from './components/Header'
+import Summary from './components/Summary'
 import './global.css'
 
 const store = createAppStore()
@@ -28,6 +29,7 @@ function Application () {
   return (
     <div>
       <Header/>
+      <Summary/>
       <ControlBar/>
       <ContactTable/>
     </div>

@@ -1,12 +1,27 @@
+.ContactTable {
+  width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+
 .FlexTable {
   border: 1px solid #CCC;
   padding: 10px;
-  margin: 0 auto;
 }
 
 .FlexTableRow {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  border-bottom: 1px solid #AAA;
+  border-bottom: 1px solid #CCC;
+}
+
+.NoContactsMessage {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #AAA;
+  font-weight: 100;
 }
