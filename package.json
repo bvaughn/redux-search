@@ -43,6 +43,7 @@
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-virtualized": "^2.0.0",
+    "redux-thunk": "^1.0.0",
     "reselect": "^2.0.1",
     "standard": "^5.4.1",
     "style-loader": "^0.13.0",

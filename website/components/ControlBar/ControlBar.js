@@ -5,15 +5,21 @@ import { createSelector } from 'reselect'
 import styles from './ControlBar.css'
 import React from 'react'
 
-export function ControlBar ({ contacts, filteredContactIds, generateContacts, searchContacts }) {
+export function ControlBar ({
+  buildSearchIndex,
+  contacts,
+  filteredContactIds,
+  generateContacts,
+  searchContacts
+}) {
   return (
     <div className={styles.ControlBar}>
-      <div
+      <button
         className={styles.Button}
         onClick={generateContacts}
       >
-        Step 1: Generate Fake Contacts
-      </div>
+        Generate Fake Contacts
+      </button>
       <input
         className={styles.SearchInput}
         onChange={event => searchContacts(event.target.value)}

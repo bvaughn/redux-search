@@ -13,7 +13,8 @@ export const State = Immutable.Record({
 })
 
 export const ACTION_TYPES = keymirror({
-  UPDATE_CONTACTS: null
+  CLEAR_CONTACTS: null,
+  SET_CONTACTS: null
 })
 
 const Contact = Immutable.Record({
@@ -26,22 +27,33 @@ const Contact = Immutable.Record({
 })
 
 export const actions = {
-  generateContacts () {
-    const contacts = {}
-    for (var i = 0; i < 1000; i++) {
-      let id = faker.random.uuid()
-      contacts[id] = new Contact({
-        address: faker.address.streetAddress(),
-        email: faker.internet.email(),
-        id: id,
-        name: faker.name.findName(),
-        phone: faker.phone.phoneNumber(),
-        title: faker.name.title()
-      })
-    }
+  clearContacts () {
     return {
-      type: ACTION_TYPES.UPDATE_CONTACTS,
-      payload: Immutable.Map(contacts)
+      type: ACTION_TYPES.CLEAR_CONTACTS
+    }
+  },
+
+  generateContacts () {
+    return (dispatch, getState) => {
+      dispatch(actions.clearContacts())
+
+      const contacts = {}
+      for (var i = 0; i < 1000; i++) {
+        let id = faker.random.uuid()
+        contacts[id] = new Contact({
+          address: faker.address.streetAddress(),
+          email: faker.internet.email(),
+          id: id,
+          name: faker.name.findName(),
+          phone: faker.phone.phoneNumber(),
+          title: faker.name.title()
+        })
+      }
+
+      dispatch({
+        type: ACTION_TYPES.SET_CONTACTS,
+        payload: Immutable.Map(contacts)
+      })
     }
   },
 
@@ -49,7 +61,11 @@ export const actions = {
 }
 
 export const actionHandlers = {
-  [ACTION_TYPES.UPDATE_CONTACTS] (state, { payload }): State {
+  [ACTION_TYPES.CLEAR_CONTACTS] (state) {
+    return state.set('contacts', Immutable.Map())
+  },
+
+  [ACTION_TYPES.SET_CONTACTS] (state, { payload }): State {
     return state.set('contacts', payload)
   }
 }

@@ -5,7 +5,7 @@
 }
 
 .Button {
-  display: inline-block;
+  border: none;
   line-height: 2rem;
   padding: 0 1rem;
   background-color: #4caf50;
@@ -15,6 +15,9 @@
   border-radius: .25em;
   cursor: pointer;
   margin-right: .5rem;
+}
+.Button:disabled {
+  opacity: .5;
 }
 
 .SearchInput {

@@ -1,10 +1,12 @@
 /** @flow */
-import { combineReducers, compose, createStore } from 'redux'
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import { reducer as searchReducer, reduxSearch, SearchApi } from '../src/index'
 import { reducer as resourceReducer } from './resources'
+import thunk from 'redux-thunk'
 
 export default function createAppStore (): Object {
   const finalCreateStore = compose(
+    applyMiddleware(thunk),
     reduxSearch({
       resourceIndexes: {
         contacts: ['address', 'email', 'name', 'phone', 'title']
