@@ -9,6 +9,7 @@ import React from 'react'
 export function ContactTable ({ contacts, filteredContactIds }) {
   return (
     <FlexTable
+      className={styles.FlexTable}
       rowClassName={styles.FlexTableRow}
       width={700}
       height={300}

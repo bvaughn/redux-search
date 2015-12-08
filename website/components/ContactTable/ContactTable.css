@@ -1,3 +1,9 @@
+.FlexTable {
+  border: 1px solid #CCC;
+  padding: 10px;
+  margin: 0 auto;
+}
+
 .FlexTableRow {
   white-space: nowrap;
   text-overflow: ellipsis;
