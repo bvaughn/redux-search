@@ -1,0 +1,6 @@
+.FlexTableRow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  border-bottom: 1px solid #AAA;
+}

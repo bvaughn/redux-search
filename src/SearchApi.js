@@ -64,6 +64,8 @@ export class SubscribableSearchApi {
     if (Array.isArray(fieldNamesOrIndexFunction)) {
       resources.forEach(resource => {
         fieldNamesOrIndexFunction.forEach(field => {
+          // TODO Document or relax the requirement that all resources have an :id attribute
+          // TODO Document or relax the requirement that all resources must be Objects or Records (with getters)
           search.indexDocument(resource.id, resource[field] || '')
         })
       })

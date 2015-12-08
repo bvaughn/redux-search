@@ -1,0 +1,27 @@
+.ControlBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Button {
+  display: inline-block;
+  line-height: 2rem;
+  padding: 0 1rem;
+  background-color: #4caf50;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: .25em;
+  cursor: pointer;
+  margin-right: .5rem;
+}
+
+.SearchInput {
+  line-height: 2rem;
+  padding: 0 .5rem;
+  margin-right: .5rem;
+}
+.SearchInput:focus {
+  outline: none;
+}

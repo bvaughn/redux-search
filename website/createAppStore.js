@@ -1,22 +1,24 @@
 /** @flow */
-import { compose, createStore } from 'redux'
-import { reduxSearch, SearchApi } from '../src/index'
-import { reducer as rootReducer } from './resources'
+import { combineReducers, compose, createStore } from 'redux'
+import { reducer as searchReducer, reduxSearch, SearchApi } from '../src/index'
+import { reducer as resourceReducer } from './resources'
 
-export default function createAppStore ({
-  searchApi
-} = {}): Object {
+export default function createAppStore (): Object {
   const finalCreateStore = compose(
     reduxSearch({
       resourceIndexes: {
-        books: ['author', 'title']
+        contacts: ['address', 'email', 'name', 'phone', 'title']
       },
       resourceSelector: (resourceName, state) => {
-        return state.resources[resourceName]
-      },
-      searchApi
+        return state.resources.get(resourceName)
+      }
     })
   )(createStore)
+
+  const rootReducer = combineReducers({
+    resources: resourceReducer,
+    search: searchReducer
+  })
 
   return finalCreateStore(rootReducer)
 }

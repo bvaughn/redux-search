@@ -6,7 +6,10 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
+import ContactTable from './components/ContactTable'
+import ControlBar from './components/ControlBar'
 import createAppStore from './createAppStore'
+import Header from './components/Header'
 import './global.css'
 
 const store = createAppStore()
@@ -14,9 +17,19 @@ const store = createAppStore()
 render((
     <div>
       <Provider store={store}>
-        <div>Coming soon!</div>
+        <Application/>
       </Provider>
     </div>
   ),
   document.getElementById('root')
 )
+
+function Application () {
+  return (
+    <div>
+      <Header/>
+      <ControlBar/>
+      <ContactTable/>
+    </div>
+  )
+}

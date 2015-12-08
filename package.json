@@ -35,18 +35,22 @@
     "css-loader": "^0.23.0",
     "cssnext": "^1.8.4",
     "cssnext-loader": "^1.0.1",
+    "faker": "^3.0.1",
     "html-webpack-plugin": "^1.7.0",
     "immutable": "^3.7.5",
     "keymirror": "^0.1.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
+    "react-virtualized": "^2.0.0",
+    "reselect": "^2.0.1",
     "standard": "^5.4.1",
     "style-loader": "^0.13.0",
     "tap-spec": "4.1.0",
     "tape": "^4.2.2",
     "watch": "^0.16.0",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "worker-loader": "^0.7.0"
   },
   "dependencies": {
     "node-uuid": "^1.4.7",
