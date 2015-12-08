@@ -1,6 +1,6 @@
 /** @flow */
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import { reducer as searchReducer, reduxSearch, SearchApi } from '../src/index'
+import { reducer as searchReducer, reduxSearch } from '../src/index'
 import { reducer as resourceReducer } from './resources'
 import thunk from 'redux-thunk'
 

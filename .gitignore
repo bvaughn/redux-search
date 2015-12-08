@@ -12,3 +12,8 @@ coverage
 
 # OS X
 .DS_Store
+
+# Misc
+node_modules
+npm-debug.log
+build

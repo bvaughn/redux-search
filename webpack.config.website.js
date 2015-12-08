@@ -3,14 +3,14 @@ const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: [
     'babel/polyfill',
     './website/index.js'
   ],
   output: {
     path: 'build',
-    filename: '/static/[name].js'
+    filename: 'static/[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -18,7 +18,11 @@ module.exports = {
       inject: true,
       template: './website/index.html'
     }),
-    new webpack.NoErrorsPlugin()
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    })
   ],
   module: {
     loaders: [
@@ -33,9 +37,5 @@ module.exports = {
         exclude: path.join(__dirname, 'node_modules')
       }
     ]
-  },
-  devServer: {
-    contentBase: 'build',
-    port: 3456
   }
 }
