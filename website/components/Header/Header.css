@@ -18,6 +18,13 @@
   display: inline-block;
 }
 
+.NavLinkIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: .5rem;
+  fill: #222;
+}
+
 .NavLink {
   display: flex;
   flex-direction: row;
@@ -27,15 +34,11 @@
   font-size: 1em;
   color: #FFFFFF;
   text-transform: uppercase;
-  text-decoration: none;
 }
 .NavLink:hover {
   border-bottom-color: #e60834;
+  text-decoration: none;
 }
-
-.NavLinkIcon {
-  width: 20px;
-  height: 20px;
-  margin-right: .5rem;
-  fill: #222;
+.NavLink:hover > .NavLinkIcon {
+  fill: #000;
 }
