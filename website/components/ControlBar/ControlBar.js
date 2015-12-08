@@ -21,13 +21,16 @@ export function ControlBar ({
         Generate Fake Contacts
       </button>
       <input
+        disabled={contacts.size === 0}
         className={styles.SearchInput}
         onChange={event => searchContacts(event.target.value)}
-        placeholder='Step 3: Search contacts...'
+        placeholder='Search contacts...'
       />
-      <div>
-        Showing {filteredContactIds.size} out of {contacts.size} contacts.
-      </div>
+      {contacts.size > 0 &&
+        <div>
+          Showing {filteredContactIds.size} out of {contacts.size} contacts.
+        </div>
+      }
     </div>
   )
 }

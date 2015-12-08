@@ -18,15 +18,15 @@
   cursor: pointer;
   margin-right: .5rem;
 }
-.Button:disabled {
-  opacity: .5;
-}
 
 .SearchInput {
   line-height: 2rem;
   padding: 0 .5rem;
   margin-right: .5rem;
   width: 15rem;
+}
+.SearchInput:disabled {
+  opacity: .65;
 }
 .SearchInput:focus {
   outline: none;
