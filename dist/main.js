@@ -1596,11 +1596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _workerInlineTrueWorker = __webpack_require__(22);
-	
-	var _workerInlineTrueWorker2 = _interopRequireDefault(_workerInlineTrueWorker);
-	
-	var _nodeUuid = __webpack_require__(24);
+	var _nodeUuid = __webpack_require__(22);
 	
 	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
 	
@@ -1614,12 +1610,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Constructor.
 	   */
 	
-	  function SearchWorkerLoader() {
+	  function SearchWorkerLoader(WorkerClass) {
 	    var _this = this;
 	
-	    var WorkerClass = arguments.length <= 0 || arguments[0] === undefined ? _workerInlineTrueWorker2['default'] : arguments[0];
-	
 	    _classCallCheck(this, SearchWorkerLoader);
+	
+	    // Defer worker import until construction to avoid testing error:
+	    // Error: Cannot find module 'worker!./[workername]'
+	    if (!WorkerClass) {
+	      WorkerClass = __webpack_require__(45);
+	    }
 	
 	    // Maintain context if references are passed around
 	    this.indexDocument = this.indexDocument.bind(this);
@@ -1741,42 +1741,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function() {
-		return __webpack_require__(23)("/******/ (function(modules) { // webpackBootstrap\n/******/ \t// The module cache\n/******/ \tvar installedModules = {};\n/******/\n/******/ \t// The require function\n/******/ \tfunction __webpack_require__(moduleId) {\n/******/\n/******/ \t\t// Check if module is in cache\n/******/ \t\tif(installedModules[moduleId])\n/******/ \t\t\treturn installedModules[moduleId].exports;\n/******/\n/******/ \t\t// Create a new module (and put it into the cache)\n/******/ \t\tvar module = installedModules[moduleId] = {\n/******/ \t\t\texports: {},\n/******/ \t\t\tid: moduleId,\n/******/ \t\t\tloaded: false\n/******/ \t\t};\n/******/\n/******/ \t\t// Execute the module function\n/******/ \t\tmodules[moduleId].call(module.exports, module, module.exports, __webpack_require__);\n/******/\n/******/ \t\t// Flag the module as loaded\n/******/ \t\tmodule.loaded = true;\n/******/\n/******/ \t\t// Return the exports of the module\n/******/ \t\treturn module.exports;\n/******/ \t}\n/******/\n/******/\n/******/ \t// expose the modules object (__webpack_modules__)\n/******/ \t__webpack_require__.m = modules;\n/******/\n/******/ \t// expose the module cache\n/******/ \t__webpack_require__.c = installedModules;\n/******/\n/******/ \t// __webpack_public_path__\n/******/ \t__webpack_require__.p = \"\";\n/******/\n/******/ \t// Load entry module and return exports\n/******/ \treturn __webpack_require__(0);\n/******/ })\n/************************************************************************/\n/******/ ([\n/* 0 */\n/***/ function(module, exports, __webpack_require__) {\n\n\t/**\n\t * Search entry point to web worker.\n\t * Builds search index and performs searches on separate thread from the ui.\n\t * \n\t */\n\t'use strict';\n\t\n\tfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }\n\t\n\tvar _Search = __webpack_require__(1);\n\t\n\tvar _Search2 = _interopRequireDefault(_Search);\n\t\n\tvar search = new _Search2['default']();\n\t\n\tself.addEventListener('message', function (event) {\n\t  var data = event.data;\n\t  var method = data.method;\n\t\n\t  switch (method) {\n\t    case 'indexDocument':\n\t      var uid = data.uid,\n\t          text = data.text;\n\t\n\t      search.indexDocument(uid, text);\n\t      break;\n\t    case 'search':\n\t      var callbackId = data.callbackId,\n\t          query = data.query;\n\t\n\t      var results = search.search(query);\n\t\n\t      self.postMessage({ callbackId: callbackId, results: results });\n\t      break;\n\t  }\n\t}, false);\n\n/***/ },\n/* 1 */\n/***/ function(module, exports, __webpack_require__) {\n\n\t'use strict';\n\t\n\tObject.defineProperty(exports, '__esModule', {\n\t  value: true\n\t});\n\t\n\tvar _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();\n\t\n\tfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }\n\t\n\tfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }\n\t\n\tvar _SearchIndex = __webpack_require__(2);\n\t\n\tvar _SearchIndex2 = _interopRequireDefault(_SearchIndex);\n\t\n\t/**\n\t * Client side, full text search utility.\n\t * Forked from JS search (github.com/bvaughn/js-search).\n\t */\n\t\n\tvar Search = (function () {\n\t\n\t  /**\n\t   * Constructor.\n\t   */\n\t\n\t  function Search() {\n\t    _classCallCheck(this, Search);\n\t\n\t    this.searchIndex = new _SearchIndex2['default']();\n\t    this.uids = {};\n\t  }\n\t\n\t  /**\n\t   * Adds or updates a uid in the search index and associates it with the specified text.\n\t   * Note that at this time uids can only be added or updated in the index, not removed.\n\t   *\n\t   * @param uid Uniquely identifies a searchable object\n\t   * @param text Text to associate with uid\n\t   */\n\t\n\t  _createClass(Search, [{\n\t    key: 'indexDocument',\n\t    value: function indexDocument(uid, text) {\n\t      var _this = this;\n\t\n\t      this.uids[uid] = true;\n\t\n\t      var fieldTokens = this._tokenize(this._sanitize(text));\n\t\n\t      fieldTokens.forEach(function (fieldToken) {\n\t        var expandedTokens = _this._expandToken(fieldToken);\n\t\n\t        expandedTokens.forEach(function (expandedToken) {\n\t          return _this.searchIndex.indexDocument(expandedToken, uid);\n\t        });\n\t      });\n\t\n\t      return this;\n\t    }\n\t\n\t    /**\n\t     * Searches the current index for the specified query text.\n\t     * Only uids matching all of the words within the text will be accepted.\n\t     * If an empty query string is provided all indexed uids will be returned.\n\t     *\n\t     * Document searches are case-insensitive (e.g. \"search\" will match \"Search\").\n\t     * Document searches use substring matching (e.g. \"na\" and \"me\" will both match \"name\").\n\t     *\n\t     * @param query Searchable query text\n\t     * @return Array of uids\n\t     */\n\t  }, {\n\t    key: 'search',\n\t    value: function search(query) {\n\t      if (!query) {\n\t        return Object.keys(this.uids);\n\t      } else {\n\t        var tokens = this._tokenize(this._sanitize(query));\n\t\n\t        return this.searchIndex.search(tokens);\n\t      }\n\t    }\n\t\n\t    /**\n\t     * Index strategy based on 'all-substrings-index-strategy.ts' in github.com/bvaughn/js-search/\n\t     *\n\t     * @private\n\t     */\n\t  }, {\n\t    key: '_expandToken',\n\t    value: function _expandToken(token) {\n\t      var expandedTokens = [];\n\t\n\t      for (var i = 0, _length = token.length; i < _length; ++i) {\n\t        var prefixString = '';\n\t\n\t        for (var j = i; j < _length; ++j) {\n\t          prefixString += token.charAt(j);\n\t          expandedTokens.push(prefixString);\n\t        }\n\t      }\n\t\n\t      return expandedTokens;\n\t    }\n\t\n\t    /**\n\t     * @private\n\t     */\n\t  }, {\n\t    key: '_sanitize',\n\t    value: function _sanitize(string) {\n\t      return string.trim().toLocaleLowerCase();\n\t    }\n\t\n\t    /**\n\t     * @private\n\t     */\n\t  }, {\n\t    key: '_tokenize',\n\t    value: function _tokenize(text) {\n\t      return text.split(/\\s+/).filter(function (text) {\n\t        return text;\n\t      }); // Remove empty tokens\n\t    }\n\t  }]);\n\t\n\t  return Search;\n\t})();\n\t\n\texports['default'] = Search;\n\tmodule.exports = exports['default'];\n\n/***/ },\n/* 2 */\n/***/ function(module, exports) {\n\n\t\n\t\n\t/**\n\t * Maps search tokens to uids.\n\t * This structure is used by the Search class to optimize search operations.\n\t * Forked from JS search (github.com/bvaughn/js-search).\n\t */\n\t\"use strict\";\n\t\n\tObject.defineProperty(exports, \"__esModule\", {\n\t  value: true\n\t});\n\t\n\tvar _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();\n\t\n\tfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\t\n\tvar SearchIndex = (function () {\n\t  function SearchIndex() {\n\t    _classCallCheck(this, SearchIndex);\n\t\n\t    this.tokenToUidMap = {};\n\t  }\n\t\n\t  /**\n\t   * Maps the specified token to a uid.\n\t   *\n\t   * @param token Searchable token (e.g. \"road\")\n\t   * @param uid Identifies a document within the searchable corpus\n\t   */\n\t\n\t  _createClass(SearchIndex, [{\n\t    key: \"indexDocument\",\n\t    value: function indexDocument(token, uid) {\n\t      if (!this.tokenToUidMap[token]) {\n\t        this.tokenToUidMap[token] = {};\n\t      }\n\t\n\t      this.tokenToUidMap[token][uid] = uid;\n\t    }\n\t\n\t    /**\n\t     * Finds uids that have been mapped to the set of tokens specified.\n\t     * Only uids that have been mapped to all tokens will be returned.\n\t     *\n\t     * @param tokens Array of searchable tokens (e.g. [\"long\", \"road\"])\n\t     * @return Array of uids that have been associated with the set of search tokens\n\t     */\n\t  }, {\n\t    key: \"search\",\n\t    value: function search(tokens) {\n\t      var _this = this;\n\t\n\t      var uidMap = {};\n\t      var initialized = false;\n\t\n\t      tokens.forEach(function (token) {\n\t        var currentUidMap = _this.tokenToUidMap[token] || {};\n\t\n\t        if (!initialized) {\n\t          initialized = true;\n\t\n\t          for (var _uid in currentUidMap) {\n\t            uidMap[_uid] = currentUidMap[_uid];\n\t          }\n\t        } else {\n\t          for (var _uid2 in uidMap) {\n\t            if (!currentUidMap[_uid2]) {\n\t              delete uidMap[_uid2];\n\t            }\n\t          }\n\t        }\n\t      });\n\t\n\t      var uids = [];\n\t\n\t      for (var _uid3 in uidMap) {\n\t        uids.push(uidMap[_uid3]);\n\t      }\n\t\n\t      return uids;\n\t    }\n\t  }]);\n\t\n\t  return SearchIndex;\n\t})();\n\t\n\texports[\"default\"] = SearchIndex;\n\tmodule.exports = exports[\"default\"];\n\n/***/ }\n/******/ ]);\n//# sourceMappingURL=6e9ede787278f510e9e7.worker.js.map", __webpack_require__.p + "6e9ede787278f510e9e7.worker.js");
-	};
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	// http://stackoverflow.com/questions/10343913/how-to-create-a-web-worker-from-a-string
-	
-	var URL = window.URL || window.webkitURL;
-	module.exports = function(content, url) {
-		try {
-			try {
-				var blob;
-				try { // BlobBuilder = Deprecated, but widely implemented
-					var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
-					blob = new BlobBuilder();
-					blob.append(content);
-					blob = blob.getBlob();
-				} catch(e) { // The proposed API
-					blob = new Blob([content]);
-				}
-				return new Worker(URL.createObjectURL(blob));
-			} catch(e) {
-				return new Worker('data:application/javascript,' + encodeURIComponent(content));
-			}
-		} catch(e) {
-			return new Worker(url);
-		}
-	}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(Buffer) {//     uuid.js
 	//
 	//     Copyright (c) 2010-2012 Robert Kieffer
@@ -1835,7 +1799,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Moderately fast, high quality
 	    if (true) {
 	      try {
-	        var _rb = __webpack_require__(29).randomBytes;
+	        var _rb = __webpack_require__(27).randomBytes;
 	        _nodeRNG = _rng = _rb && function() {return _rb(16);};
 	        _rng();
 	      } catch(e) {}
@@ -2050,10 +2014,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	})('undefined' !== typeof window ? window : null);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 25 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -2064,9 +2028,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	/* eslint-disable no-proto */
 	
-	var base64 = __webpack_require__(26)
-	var ieee754 = __webpack_require__(27)
-	var isArray = __webpack_require__(28)
+	var base64 = __webpack_require__(24)
+	var ieee754 = __webpack_require__(25)
+	var isArray = __webpack_require__(26)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -3601,10 +3565,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return i
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 26 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -3734,7 +3698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 25 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -3824,7 +3788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -3833,10 +3797,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(30)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(28)
 	
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -3847,9 +3811,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    ].join('\n'))
 	}
 	
-	exports.createHash = __webpack_require__(32)
+	exports.createHash = __webpack_require__(30)
 	
-	exports.createHmac = __webpack_require__(44)
+	exports.createHmac = __webpack_require__(42)
 	
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -3870,7 +3834,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 	
-	var p = __webpack_require__(45)(exports)
+	var p = __webpack_require__(43)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 	
@@ -3890,16 +3854,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 30 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(31)
+	    g.crypto || g.msCrypto || __webpack_require__(29)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -3923,22 +3887,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}())
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(23).Buffer))
 
 /***/ },
-/* 31 */
+/* 29 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 32 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(33)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(31)
 	
-	var md5 = toConstructor(__webpack_require__(41))
-	var rmd160 = toConstructor(__webpack_require__(43))
+	var md5 = toConstructor(__webpack_require__(39))
+	var rmd160 = toConstructor(__webpack_require__(41))
 	
 	function toConstructor (fn) {
 	  return function () {
@@ -3966,10 +3930,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return createHash(alg)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 33 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -3978,16 +3942,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return new Alg()
 	}
 	
-	var Buffer = __webpack_require__(25).Buffer
-	var Hash   = __webpack_require__(34)(Buffer)
+	var Buffer = __webpack_require__(23).Buffer
+	var Hash   = __webpack_require__(32)(Buffer)
 	
-	exports.sha1 = __webpack_require__(35)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(39)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(40)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(33)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(37)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(38)(Buffer, Hash)
 
 
 /***/ },
-/* 34 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -4070,7 +4034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -4082,7 +4046,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 	
-	var inherits = __webpack_require__(36).inherits
+	var inherits = __webpack_require__(34).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -4214,7 +4178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 36 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -4742,7 +4706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(37);
+	exports.isBuffer = __webpack_require__(35);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -4786,7 +4750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(38);
+	exports.inherits = __webpack_require__(36);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -4807,7 +4771,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(10)))
 
 /***/ },
-/* 37 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -4818,7 +4782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 38 */
+/* 36 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -4847,7 +4811,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -4859,7 +4823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 */
 	
-	var inherits = __webpack_require__(36).inherits
+	var inherits = __webpack_require__(34).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -5000,10 +4964,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(36).inherits
+	var inherits = __webpack_require__(34).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -5250,7 +5214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 41 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -5262,7 +5226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 	
-	var helpers = __webpack_require__(42);
+	var helpers = __webpack_require__(40);
 	
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -5411,7 +5375,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 42 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -5449,10 +5413,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = { hash: hash };
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 43 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -5661,13 +5625,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 44 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(32)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(30)
 	
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -5711,13 +5675,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
 
 /***/ },
-/* 45 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(46)
+	var pbkdf2Export = __webpack_require__(44)
 	
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -5732,7 +5696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 46 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -5820,7 +5784,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function() {
+		return __webpack_require__(46)("/******/ (function(modules) { // webpackBootstrap\n/******/ \t// The module cache\n/******/ \tvar installedModules = {};\n/******/\n/******/ \t// The require function\n/******/ \tfunction __webpack_require__(moduleId) {\n/******/\n/******/ \t\t// Check if module is in cache\n/******/ \t\tif(installedModules[moduleId])\n/******/ \t\t\treturn installedModules[moduleId].exports;\n/******/\n/******/ \t\t// Create a new module (and put it into the cache)\n/******/ \t\tvar module = installedModules[moduleId] = {\n/******/ \t\t\texports: {},\n/******/ \t\t\tid: moduleId,\n/******/ \t\t\tloaded: false\n/******/ \t\t};\n/******/\n/******/ \t\t// Execute the module function\n/******/ \t\tmodules[moduleId].call(module.exports, module, module.exports, __webpack_require__);\n/******/\n/******/ \t\t// Flag the module as loaded\n/******/ \t\tmodule.loaded = true;\n/******/\n/******/ \t\t// Return the exports of the module\n/******/ \t\treturn module.exports;\n/******/ \t}\n/******/\n/******/\n/******/ \t// expose the modules object (__webpack_modules__)\n/******/ \t__webpack_require__.m = modules;\n/******/\n/******/ \t// expose the module cache\n/******/ \t__webpack_require__.c = installedModules;\n/******/\n/******/ \t// __webpack_public_path__\n/******/ \t__webpack_require__.p = \"\";\n/******/\n/******/ \t// Load entry module and return exports\n/******/ \treturn __webpack_require__(0);\n/******/ })\n/************************************************************************/\n/******/ ([\n/* 0 */\n/***/ function(module, exports, __webpack_require__) {\n\n\t/**\n\t * Search entry point to web worker.\n\t * Builds search index and performs searches on separate thread from the ui.\n\t * \n\t */\n\t'use strict';\n\t\n\tfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }\n\t\n\tvar _Search = __webpack_require__(1);\n\t\n\tvar _Search2 = _interopRequireDefault(_Search);\n\t\n\tvar search = new _Search2['default']();\n\t\n\tself.addEventListener('message', function (event) {\n\t  var data = event.data;\n\t  var method = data.method;\n\t\n\t  switch (method) {\n\t    case 'indexDocument':\n\t      var uid = data.uid,\n\t          text = data.text;\n\t\n\t      search.indexDocument(uid, text);\n\t      break;\n\t    case 'search':\n\t      var callbackId = data.callbackId,\n\t          query = data.query;\n\t\n\t      var results = search.search(query);\n\t\n\t      self.postMessage({ callbackId: callbackId, results: results });\n\t      break;\n\t  }\n\t}, false);\n\n/***/ },\n/* 1 */\n/***/ function(module, exports, __webpack_require__) {\n\n\t'use strict';\n\t\n\tObject.defineProperty(exports, '__esModule', {\n\t  value: true\n\t});\n\t\n\tvar _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();\n\t\n\tfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }\n\t\n\tfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }\n\t\n\tvar _SearchIndex = __webpack_require__(2);\n\t\n\tvar _SearchIndex2 = _interopRequireDefault(_SearchIndex);\n\t\n\t/**\n\t * Client side, full text search utility.\n\t * Forked from JS search (github.com/bvaughn/js-search).\n\t */\n\t\n\tvar Search = (function () {\n\t\n\t  /**\n\t   * Constructor.\n\t   */\n\t\n\t  function Search() {\n\t    _classCallCheck(this, Search);\n\t\n\t    this.searchIndex = new _SearchIndex2['default']();\n\t    this.uids = {};\n\t  }\n\t\n\t  /**\n\t   * Adds or updates a uid in the search index and associates it with the specified text.\n\t   * Note that at this time uids can only be added or updated in the index, not removed.\n\t   *\n\t   * @param uid Uniquely identifies a searchable object\n\t   * @param text Text to associate with uid\n\t   */\n\t\n\t  _createClass(Search, [{\n\t    key: 'indexDocument',\n\t    value: function indexDocument(uid, text) {\n\t      var _this = this;\n\t\n\t      this.uids[uid] = true;\n\t\n\t      var fieldTokens = this._tokenize(this._sanitize(text));\n\t\n\t      fieldTokens.forEach(function (fieldToken) {\n\t        var expandedTokens = _this._expandToken(fieldToken);\n\t\n\t        expandedTokens.forEach(function (expandedToken) {\n\t          return _this.searchIndex.indexDocument(expandedToken, uid);\n\t        });\n\t      });\n\t\n\t      return this;\n\t    }\n\t\n\t    /**\n\t     * Searches the current index for the specified query text.\n\t     * Only uids matching all of the words within the text will be accepted.\n\t     * If an empty query string is provided all indexed uids will be returned.\n\t     *\n\t     * Document searches are case-insensitive (e.g. \"search\" will match \"Search\").\n\t     * Document searches use substring matching (e.g. \"na\" and \"me\" will both match \"name\").\n\t     *\n\t     * @param query Searchable query text\n\t     * @return Array of uids\n\t     */\n\t  }, {\n\t    key: 'search',\n\t    value: function search(query) {\n\t      if (!query) {\n\t        return Object.keys(this.uids);\n\t      } else {\n\t        var tokens = this._tokenize(this._sanitize(query));\n\t\n\t        return this.searchIndex.search(tokens);\n\t      }\n\t    }\n\t\n\t    /**\n\t     * Index strategy based on 'all-substrings-index-strategy.ts' in github.com/bvaughn/js-search/\n\t     *\n\t     * @private\n\t     */\n\t  }, {\n\t    key: '_expandToken',\n\t    value: function _expandToken(token) {\n\t      var expandedTokens = [];\n\t\n\t      for (var i = 0, _length = token.length; i < _length; ++i) {\n\t        var prefixString = '';\n\t\n\t        for (var j = i; j < _length; ++j) {\n\t          prefixString += token.charAt(j);\n\t          expandedTokens.push(prefixString);\n\t        }\n\t      }\n\t\n\t      return expandedTokens;\n\t    }\n\t\n\t    /**\n\t     * @private\n\t     */\n\t  }, {\n\t    key: '_sanitize',\n\t    value: function _sanitize(string) {\n\t      return string.trim().toLocaleLowerCase();\n\t    }\n\t\n\t    /**\n\t     * @private\n\t     */\n\t  }, {\n\t    key: '_tokenize',\n\t    value: function _tokenize(text) {\n\t      return text.split(/\\s+/).filter(function (text) {\n\t        return text;\n\t      }); // Remove empty tokens\n\t    }\n\t  }]);\n\t\n\t  return Search;\n\t})();\n\t\n\texports['default'] = Search;\n\tmodule.exports = exports['default'];\n\n/***/ },\n/* 2 */\n/***/ function(module, exports) {\n\n\t\n\t\n\t/**\n\t * Maps search tokens to uids.\n\t * This structure is used by the Search class to optimize search operations.\n\t * Forked from JS search (github.com/bvaughn/js-search).\n\t */\n\t\"use strict\";\n\t\n\tObject.defineProperty(exports, \"__esModule\", {\n\t  value: true\n\t});\n\t\n\tvar _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();\n\t\n\tfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\t\n\tvar SearchIndex = (function () {\n\t  function SearchIndex() {\n\t    _classCallCheck(this, SearchIndex);\n\t\n\t    this.tokenToUidMap = {};\n\t  }\n\t\n\t  /**\n\t   * Maps the specified token to a uid.\n\t   *\n\t   * @param token Searchable token (e.g. \"road\")\n\t   * @param uid Identifies a document within the searchable corpus\n\t   */\n\t\n\t  _createClass(SearchIndex, [{\n\t    key: \"indexDocument\",\n\t    value: function indexDocument(token, uid) {\n\t      if (!this.tokenToUidMap[token]) {\n\t        this.tokenToUidMap[token] = {};\n\t      }\n\t\n\t      this.tokenToUidMap[token][uid] = uid;\n\t    }\n\t\n\t    /**\n\t     * Finds uids that have been mapped to the set of tokens specified.\n\t     * Only uids that have been mapped to all tokens will be returned.\n\t     *\n\t     * @param tokens Array of searchable tokens (e.g. [\"long\", \"road\"])\n\t     * @return Array of uids that have been associated with the set of search tokens\n\t     */\n\t  }, {\n\t    key: \"search\",\n\t    value: function search(tokens) {\n\t      var _this = this;\n\t\n\t      var uidMap = {};\n\t      var initialized = false;\n\t\n\t      tokens.forEach(function (token) {\n\t        var currentUidMap = _this.tokenToUidMap[token] || {};\n\t\n\t        if (!initialized) {\n\t          initialized = true;\n\t\n\t          for (var _uid in currentUidMap) {\n\t            uidMap[_uid] = currentUidMap[_uid];\n\t          }\n\t        } else {\n\t          for (var _uid2 in uidMap) {\n\t            if (!currentUidMap[_uid2]) {\n\t              delete uidMap[_uid2];\n\t            }\n\t          }\n\t        }\n\t      });\n\t\n\t      var uids = [];\n\t\n\t      for (var _uid3 in uidMap) {\n\t        uids.push(uidMap[_uid3]);\n\t      }\n\t\n\t      return uids;\n\t    }\n\t  }]);\n\t\n\t  return SearchIndex;\n\t})();\n\t\n\texports[\"default\"] = SearchIndex;\n\tmodule.exports = exports[\"default\"];\n\n/***/ }\n/******/ ]);\n//# sourceMappingURL=6e9ede787278f510e9e7.worker.js.map", __webpack_require__.p + "6e9ede787278f510e9e7.worker.js");
+	};
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	// http://stackoverflow.com/questions/10343913/how-to-create-a-web-worker-from-a-string
+	
+	var URL = window.URL || window.webkitURL;
+	module.exports = function(content, url) {
+		try {
+			try {
+				var blob;
+				try { // BlobBuilder = Deprecated, but widely implemented
+					var BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+					blob = new BlobBuilder();
+					blob.append(content);
+					blob = blob.getBlob();
+				} catch(e) { // The proposed API
+					blob = new Blob([content]);
+				}
+				return new Worker(URL.createObjectURL(blob));
+			} catch(e) {
+				return new Worker('data:application/javascript,' + encodeURIComponent(content));
+			}
+		} catch(e) {
+			return new Worker(url);
+		}
+	}
 
 /***/ },
 /* 47 */
