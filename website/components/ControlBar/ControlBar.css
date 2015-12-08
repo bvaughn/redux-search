@@ -1,9 +1,8 @@
 .ControlBar {
   display: flex;
+  width: 100%;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: .5rem;
 }
 
 .Button {
@@ -31,4 +30,9 @@
 }
 .SearchInput:focus {
   outline: none;
+}
+
+.Summary {
+  flex-grow: 1;
+  text-align: right;
 }

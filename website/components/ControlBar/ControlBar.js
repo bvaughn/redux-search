@@ -27,7 +27,7 @@ export function ControlBar ({
         placeholder='Search contacts...'
       />
       {contacts.size > 0 &&
-        <div>
+        <div className={styles.Summary}>
           Showing {filteredContactIds.size} out of {contacts.size} contacts.
         </div>
       }
