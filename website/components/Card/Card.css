@@ -1,8 +1,3 @@
-.CardWrapper {
-  display: flex;
-  justify-content: center;
-}
-
 .Card {
   background-color: #fff;
   max-width: 800px;
@@ -13,5 +8,5 @@
   background-color: #FFF;
   box-shadow: 1px 1px 1px 1px rgba(0,0,0,.15);
   border-radius: 2px;
-  margin: 2rem;
+  margin: .5rem;
 }

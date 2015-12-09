@@ -9,7 +9,8 @@ export default function createAppStore (): Object {
     applyMiddleware(thunk),
     reduxSearch({
       resourceIndexes: {
-        contacts: ['address', 'email', 'name', 'phone', 'title']
+        map: ['name', 'title'],
+        immutableMap: ['name', 'title']
       },
       resourceSelector: (resourceName, state) => {
         return state.resources.get(resourceName)

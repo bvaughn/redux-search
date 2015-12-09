@@ -9,79 +9,96 @@ import Immutable from 'immutable'
 import keymirror from 'keymirror'
 
 export const State = Immutable.Record({
-  contacts: Immutable.OrderedMap()
+  map: Immutable.OrderedMap(),
+  immutableMap: Immutable.OrderedMap()
 })
 
 export const ACTION_TYPES = keymirror({
-  CLEAR_CONTACTS: null,
-  SET_CONTACTS: null
+  CLEAR_DATA: null,
+  CLEAR_IMMUTABLE_DATA: null,
+  SET_DATA: null,
+  SET_IMMUTABLE_DATA: null
 })
 
-const Contact = Immutable.Record({
-  address: null,
-  email: null,
+// Immutable Data attributes must be accessible as getters
+const Record = Immutable.Record({
   id: null,
   name: null,
-  phone: null,
   title: null
 })
 
 export const actions = {
-  clearContacts () {
-    return {
-      type: ACTION_TYPES.CLEAR_CONTACTS
-    }
-  },
+  clearData: () => ({ type: ACTION_TYPES.CLEAR_DATA }),
+  clearImmutableData: () => ({ type: ACTION_TYPES.CLEAR_IMMUTABLE_DATA }),
 
-  generateContacts () {
+  generateData () {
     return (dispatch, getState) => {
-      dispatch(actions.clearContacts())
-
-      const contacts = {}
+      dispatch(actions.clearData())
+      const data = {}
       for (var i = 0; i < 1000; i++) {
         let id = faker.random.uuid()
-        contacts[id] = new Contact({
-          address: faker.address.streetAddress(),
-          email: faker.internet.email(),
+        data[id] = {
           id: id,
           name: faker.name.findName(),
-          phone: faker.phone.phoneNumber(),
           title: faker.name.title()
-        })
+        }
       }
-
       dispatch({
-        type: ACTION_TYPES.SET_CONTACTS,
-        payload: Immutable.Map(contacts)
+        type: ACTION_TYPES.SET_DATA,
+        payload: data
       })
     }
   },
 
-  searchContacts: createSearch('contacts')
+  generateImmutableData () {
+    return (dispatch, getState) => {
+      dispatch(actions.clearImmutableData())
+      const immutableMap = {}
+      for (var i = 0; i < 1000; i++) {
+        let id = faker.random.uuid()
+        immutableMap[id] = new Record({
+          id: id,
+          name: faker.name.findName(),
+          title: faker.name.title()
+        })
+      }
+      dispatch({
+        type: ACTION_TYPES.SET_IMMUTABLE_DATA,
+        payload: Immutable.Map(immutableMap)
+      })
+    }
+  },
+
+  searchData: createSearch('map'),
+  searchImmutableData: createSearch('immutableMap')
 }
 
 export const actionHandlers = {
-  [ACTION_TYPES.CLEAR_CONTACTS] (state) {
-    return state.set('contacts', Immutable.Map())
+  [ACTION_TYPES.CLEAR_DATA] (state) {
+    return state.set('map', {})
   },
-
-  [ACTION_TYPES.SET_CONTACTS] (state, { payload }): State {
-    return state.set('contacts', payload)
+  [ACTION_TYPES.CLEAR_IMMUTABLE_DATA] (state) {
+    return state.set('immutableMap', Immutable.Map())
+  },
+  [ACTION_TYPES.SET_DATA] (state, { payload }): State {
+    return state.set('map', payload)
+  },
+  [ACTION_TYPES.SET_IMMUTABLE_DATA] (state, { payload }): State {
+    return state.set('immutableMap', payload)
   }
 }
 
 export const resources = state => state.resources
-export const contacts = createSelector(
-  [resources],
-  (resources) => resources.contacts
-)
+export const map = createSelector([resources], resources => resources.map)
+export const immutableMap = createSelector([resources], resources => resources.immutableMap)
 
-const { text, result } = getSearchSelectors('contacts')
-export const searchString = text
-export const filteredContactIds = createSelector(
-  [result],
-  (result) => Immutable.List(result)
-)
+const selectors = getSearchSelectors('map')
+export const searchData = selectors.text
+export const filteredIdArray = selectors.result
+
+const immutableSelectors = getSearchSelectors('immutableMap')
+export const searchImmutableData = immutableSelectors.text
+export const filteredIdList = createSelector([immutableSelectors.result], result => Immutable.List(result))
 
 export function reducer (state = new State(), action: Object): State {
   const { type } = action

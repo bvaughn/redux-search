@@ -3,17 +3,11 @@
  * This target is published to the root of the `gh-pages` branch.
  * @flow
  */
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import Card from './components/Card'
-import ContactTable from './components/ContactTable'
-import ControlBar from './components/ControlBar'
 import createAppStore from './createAppStore'
-import Footer from './components/Footer'
-import Header from './components/Header'
-import Summary from './components/Summary'
-import './global.css'
+import { Provider } from 'react-redux'
+import { render } from 'react-dom'
+import Application from './Application'
+import React from 'react'
 
 const store = createAppStore()
 
@@ -26,17 +20,3 @@ render((
   ),
   document.getElementById('root')
 )
-
-function Application () {
-  return (
-    <div>
-      <Header/>
-      <Card>
-        <ControlBar/>
-        <ContactTable/>
-        <Summary/>
-      </Card>
-      <Footer/>
-    </div>
-  )
-}

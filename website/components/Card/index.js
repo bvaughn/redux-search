@@ -1,1 +1,2 @@
-export default from './Card'
+export Card from './Card'
+export CardWrapper from './CardWrapper'

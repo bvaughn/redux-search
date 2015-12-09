@@ -7,10 +7,8 @@ Card.propTypes = {
 }
 export default function Card ({ children }) {
   return (
-    <div className={styles.CardWrapper}>
-      <div className={styles.Card}>
-        {children}
-      </div>
+    <div className={styles.Card}>
+      {children}
     </div>
   )
 }

@@ -62,13 +62,22 @@ export class SubscribableSearchApi {
     const search = this._createSearch()
 
     if (Array.isArray(fieldNamesOrIndexFunction)) {
-      resources.forEach(resource => {
-        fieldNamesOrIndexFunction.forEach(field => {
-          // TODO Document or relax the requirement that all resources have an :id attribute
-          // TODO Document or relax the requirement that all resources must be Objects or Records (with getters)
-          search.indexDocument(resource.id, resource[field] || '')
+      // TODO Document the requirement that all resources have an :id attribute
+      // TODO Document the requirement that all resources must be Objects or Records (with getters)
+      if (resources.forEach instanceof Function) {
+        resources.forEach(resource => {
+          fieldNamesOrIndexFunction.forEach(field => {
+            search.indexDocument(resource.id, resource[field] || '')
+          })
         })
-      })
+      } else {
+        for (var key in resources) {
+          let resource = resources[key]
+          fieldNamesOrIndexFunction.forEach(field => {
+            search.indexDocument(resource.id, resource[field] || '')
+          })
+        }
+      }
     } else if (fieldNamesOrIndexFunction instanceof Function) {
       fieldNamesOrIndexFunction({
         indexDocument: search.indexDocument,
