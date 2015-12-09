@@ -11,7 +11,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #e8e8e8;
   font-size: 1.2em;
   text-transform: none;
 }
@@ -21,7 +21,5 @@
   top: 50%;
   width: 100%;
   text-align: center;
-  font-size: 1.5rem;
-  color: #AAA;
-  font-weight: 100;
+  color: #cccccc;
 }
