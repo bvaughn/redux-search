@@ -33,14 +33,14 @@ class MockSearchApi {
 }
 
 test('reduxSearch should subscribe to the specified searchApi', t => {
-  let searchApi = new MockSearchApi()
+  const searchApi = new MockSearchApi()
   createMiddleware({ searchApi })
   t.equal(searchApi.subscribeCalls.length, 1)
   t.end()
 })
 
 test('reduxSearch should auto-index searchable resources if a resourceSelector is specified', t => {
-  let searchApi = new MockSearchApi()
+  const searchApi = new MockSearchApi()
   const resourceIndexes = { users: ['name'] }
   const resources = {}
   const resourceSelectorCalls = []
@@ -65,7 +65,7 @@ test('reduxSearch should auto-index searchable resources if a resourceSelector i
 })
 
 test('reduxSearch should auto-update index any time a searchable resource changes', t => {
-  let searchApi = new MockSearchApi()
+  const searchApi = new MockSearchApi()
   const resourceIndexes = { users: ['name'] }
   const resourceA = {}
   const resourceB = {}
@@ -94,7 +94,7 @@ test('reduxSearch should auto-update index any time a searchable resource change
 })
 
 test('reduxSearch should not auto-index searchable resources if no resourceSelector is specified', t => {
-  let searchApi = new MockSearchApi()
+  const searchApi = new MockSearchApi()
   const resourceIndexes = { users: ['name'] }
   const store = createMiddleware({ resourceIndexes, searchApi })
 
