@@ -1,10 +1,27 @@
 .Header {
   width: 100%;
-  background: #ff093a;
+  background: #2196f3;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 1rem;
+}
+
+.LogoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.ReduxText {
+  font-weight: bold;
+  color: #222;
+  font-size: 2.5em;
+  margin: 0 .25em;
+}
+.SearchText {
+  color: #fff;
+  font-size: 2.5em;
+  font-weight: 100;
 }
 
 .NavList {
@@ -36,7 +53,7 @@
   text-transform: uppercase;
 }
 .NavLink:hover {
-  border-bottom-color: #e60834;
+  border-bottom-color: #1678c6;
   text-decoration: none;
 }
 .NavLink:hover > .NavLinkIcon {

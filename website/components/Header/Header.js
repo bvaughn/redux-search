@@ -5,12 +5,16 @@ import styles from './Header.css'
 export default function Header () {
   return (
     <nav className={styles.Header}>
-      <img
-        title='Redux Search'
-        width={315}
-        height={100}
-        src='https://cloud.githubusercontent.com/assets/29597/11669135/e76f8ef4-9daf-11e5-88f0-ed8a018ba166.png'
-      />
+      <div className={styles.LogoContainer}>
+        <img
+          title='Redux Search logo'
+          width={50}
+          height={50}
+          src='https://cloud.githubusercontent.com/assets/29597/11674783/dadaa3a8-9dd8-11e5-811d-1371a8a50c68.png'
+        />
+        <div className={styles.ReduxText}>redux</div>
+        <div className={styles.SearchText}>search</div>
+      </div>
 
       <ul className={styles.NavList}>
         <NavLink
