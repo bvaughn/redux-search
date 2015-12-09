@@ -1,0 +1,39 @@
+body {
+  font-family: Roboto, 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  background-color: #e8e8e8;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+p:last-of-type {
+  margin-bottom: 0;
+}
+
+.Row {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #e8e8e8;
+  font-size: .75em;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 .5em;
+}

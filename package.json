@@ -4,7 +4,18 @@
   "description": "Redux bindings for client-side search",
   "main": "index.js",
   "scripts": {
+    "build": "npm run build:website && npm run build:dist",
+    "build:website": "npm run clean:website && NODE_ENV=production webpack --config webpack.config.website.js -p --bail",
+    "build:dist": "npm run clean:dist && NODE_ENV=production webpack --config webpack.config.dist.js --bail",
+    "clean": "npm run clean:website && npm run clean:dist",
+    "clean:website": "rimraf build",
+    "clean:dist": "rimraf dist",
+    "deploy": "gh-pages -d build",
     "lint": "standard",
+    "prebuild": "npm run lint",
+    "postpublish": "npm run deploy",
+    "prepublish": "npm run build",
+    "start": "webpack-dev-server --hot --inline --config webpack.config.dev.js",
     "test": "babel-node node_modules/.bin/tape 'src/**/*.test.js' | tspec",
     "watch": "watch 'clear && npm run lint -s && npm run test -s' src"
   },
@@ -20,22 +31,46 @@
   "homepage": "https://github.com/treasure-data/redux-search#readme",
   "standard": {
     "parser": "babel-eslint",
-    "ignore": [],
+    "ignore": [
+      "build",
+      "dist",
+      "node_modules"
+    ],
     "global": [
       "self"
     ]
   },
   "devDependencies": {
-    "babel": "5.8.23",
+    "babel": "^5.8.34",
+    "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.6",
+    "babel-loader": "^5.4.0",
+    "babel-plugin-react-transform": "^1.1.1",
+    "css-loader": "^0.23.0",
+    "cssnext": "^1.8.4",
+    "cssnext-loader": "^1.0.1",
+    "faker": "^3.0.1",
+    "gh-pages": "^0.8.0",
+    "html-webpack-plugin": "^1.7.0",
     "immutable": "^3.7.5",
+    "keymirror": "^0.1.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
+    "react-virtualized": "^2.0.0",
+    "redux-thunk": "^1.0.0",
+    "reselect": "^2.0.1",
+    "rimraf": "^2.4.4",
     "standard": "^5.4.1",
+    "style-loader": "^0.13.0",
     "tap-spec": "4.1.0",
     "tape": "^4.2.2",
-    "watch": "^0.16.0"
+    "watch": "^0.16.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0",
+    "worker-loader": "^0.7.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.0.14",
     "node-uuid": "^1.4.7",
     "redux": "^3.0.4"
   }

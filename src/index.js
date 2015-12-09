@@ -1,10 +1,21 @@
 /* @flow */
-export {
+import {
   defaultSearchStateSelector,
   getSearchSelectors
 } from './selectors'
-export { search } from './actions'
-export reduxSearch from './reduxSearch'
-export reducer from './reducer'
-export { SearchApi } from './SearchApi'
-export { WorkerSearchApi } from './SearchApi'
+import { search } from './actions'
+import reduxSearch from './reduxSearch'
+import reducer from './reducer'
+import { SearchApi } from './SearchApi'
+import { WorkerSearchApi } from './SearchApi'
+
+export default reduxSearch
+export {
+  defaultSearchStateSelector,
+  getSearchSelectors,
+  reducer,
+  reduxSearch,
+  search,
+  SearchApi,
+  WorkerSearchApi
+}

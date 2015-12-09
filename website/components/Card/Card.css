@@ -1,0 +1,12 @@
+.Card {
+  background-color: #fff;
+  max-width: 800px;
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 15px 20px 20px;
+  background-color: #FFF;
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,.15);
+  border-radius: 2px;
+  margin: .5rem;
+}

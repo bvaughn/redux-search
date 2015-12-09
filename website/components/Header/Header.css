@@ -1,0 +1,61 @@
+.Header {
+  width: 100%;
+  background-color: #2196f3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.LogoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.ReduxText {
+  font-weight: bold;
+  color: #222;
+  font-size: 2.5em;
+  margin: 0 .25em;
+}
+.SearchText {
+  color: #fff;
+  font-size: 2.5em;
+  font-weight: 100;
+}
+
+.NavList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.NavListItem {
+  display: inline-block;
+}
+
+.NavLinkIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: .5rem;
+  fill: #222;
+}
+
+.NavLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem 1rem .5rem;
+  border-bottom: .5rem solid transparent;
+  font-size: 1em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+.NavLink:hover {
+  border-bottom-color: #1678c6;
+  text-decoration: none;
+}
+.NavLink:hover > .NavLinkIcon {
+  fill: #000;
+}

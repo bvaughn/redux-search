@@ -4,7 +4,6 @@ import * as actions from './actions'
 import { SEARCH_STATE_SELECTOR } from './constants'
 import searchMiddleware from './searchMiddleware'
 import { WorkerSearchApi } from './SearchApi'
-import Immutable from 'immutable'
 
 /**
  * Creates higher-order search store to be composed with other store enhancers.
@@ -66,7 +65,7 @@ export default function reduxSearch ({
           const resource = resourceSelector(resourceName, nextState)
 
           // Only rebuild the search index for resources that have changed
-          if (!Immutable.is(currentResources[resourceName], resource)) {
+          if (currentResources[resourceName] !== resource) {
             currentResources[resourceName] = resource
 
             const resourceIndex = resourceIndexes[resourceName]
