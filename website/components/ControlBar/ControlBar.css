@@ -14,9 +14,14 @@
   font-size: 1em;
   border-radius: .25em;
   cursor: pointer;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+  transition-duration: 0.35s;
 }
-.Button:hover {
-  background-color: #259436;
+.Button:hover,
+.Button:focus {
+  transform: translate3d(0, -1px, 0);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  outline: 0;
 }
 
 .SearchInput {
