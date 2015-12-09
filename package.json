@@ -33,8 +33,7 @@
     "parser": "babel-eslint",
     "ignore": [
       "build",
-      "dist",
-      "node_modules"
+      "dist"
     ],
     "global": [
       "self"
