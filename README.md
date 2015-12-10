@@ -3,7 +3,7 @@ redux-search
 
 <img src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" alt="React virtualized" data-canonical-src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" width="364" height="100" />
 
-<img src="https://circleci.com/gh/treasure-data/redux-search.svg?style=shield&circle-token=:circle-token" alt="Circle CI badge">
+[![Circle CI](https://circleci.com/gh/treasure-data/redux-search.svg?style=svg)](https://circleci.com/gh/treasure-data/redux-search)
 
 Higher-order Redux library for searching collections of objects. Search algorithms based on [js-search](https://github.com/bvaughn/js-search) but with added web-worker support for better performance.
 
@@ -15,14 +15,23 @@ Or install it yourself with NPM:
 npm install --save redux-search
 ```
 
-Basic Usage
+Overview
 ---------
 
-Here is a quick introduction of `redux-search`. For more detailed information refer to the [API documentation](https://github.com/treasure-data/redux-search/tree/master/docs).
+This README provides a quick introduction of redux-search. For more details refer to the [API documentation](https://github.com/treasure-data/redux-search/tree/master/docs).
+
+redux-search searches collections of documents and returns results as an `Array` of document ids. It is important to note that the documents themselves aren't returned. This is because the actual search is performed in a web-worker thread for performance reasons. In order to avoid serializing the documents and passing them back and forth, redux-search simply passes their ids.
+
+Because of this, each document _must contain an `id` attribute_.
+
+redux-search provides provides an [action](docs/README.md#createsearchactionresourcename) for searching resources as well as [selectors](docs/README.md#getsearchselectorsresourcename-searchstateselector) for getting search results and the current search text. It then watches the store for resource changes and automatically updates search results as needed.
+
+Example
+---------
 
 #### Configuring the Store
 
-`redux-search` watches the store for changes to searchable collections and automatically builds a search index. To do this, it simply needs to be told which resources to watch and which fields to index.
+redux-search watches the store for changes to searchable collections and automatically builds a search index. To do this, it simply needs to be told which resources to watch and which fields to index.
 
 ```javascript
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
@@ -53,7 +62,7 @@ const store = compose(
 
 #### Connecting a Component
 
-`redux-search` provides selectors and action-creators for easily connecting components with the search state. For example, using `reselect` you might connect your component like so:
+redux-search provides selectors and action-creators for easily connecting components with the search state. For example, using `reselect` you might connect your component like so:
 
 ```javascript
 // Elsewhere, in a smart component module...
@@ -92,4 +101,4 @@ Changes are tracked in the [changelog](CHANGELOG.md).
 License
 ---------
 
-*redux-search* is available under the MIT License.
+redux-search is available under the MIT License.
