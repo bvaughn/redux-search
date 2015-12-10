@@ -3,7 +3,7 @@
  * @flow
  */
 import { createSelector } from 'reselect'
-import { getSearchSelectors, search as createSearch } from '../src/index'
+import { createSearchAction, getSearchSelectors } from '../src/index'
 import faker from 'faker'
 import Immutable from 'immutable'
 import keymirror from 'keymirror'
@@ -69,8 +69,8 @@ export const actions = {
     }
   },
 
-  searchData: createSearch('map'),
-  searchImmutableData: createSearch('immutableMap')
+  searchData: createSearchAction('map'),
+  searchImmutableData: createSearchAction('immutableMap')
 }
 
 export const actionHandlers = {

@@ -6,8 +6,7 @@ import {
 import { search } from './actions'
 import reduxSearch from './reduxSearch'
 import reducer from './reducer'
-import { SearchApi } from './SearchApi'
-import { WorkerSearchApi } from './SearchApi'
+import { SearchApi, WorkerSearchApi } from './SearchApi'
 
 export default reduxSearch
 export {
@@ -15,7 +14,7 @@ export {
   getSearchSelectors,
   reducer,
   reduxSearch,
-  search,
+  search as createSearchAction,
   SearchApi,
   WorkerSearchApi
 }

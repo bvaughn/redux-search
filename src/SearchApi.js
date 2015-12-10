@@ -23,7 +23,7 @@ export class SubscribableSearchApi {
 
   /**
    * Subscribe to Search events.
-   * Subscribers will be notified each time a Search is perfromed.
+   * Subscribers will be notified each time a Search is performed.
    *
    * Successful searches will call :onNext with the following parameters:
    * >result: An array of uids matching the search

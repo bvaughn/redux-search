@@ -53,7 +53,7 @@ const store = compose(
 // Elsewhere, in a smart component module...
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
-import { getSearchSelectors, search as createSearch } from 'redux-search'
+import { createSearchAction, getSearchSelectors } from 'redux-search'
 
 // :text is a selector that returns the text Books are currently filtered by
 // :result is an Array of Book ids that match the current seach :text (or all Books if there is no search :text)
@@ -72,7 +72,7 @@ const selectors = createSelector(
 )
 
 const actions = {
-  searchBooks: createSearch('books')
+  searchBooks: createSearchAction('books')
 }
 
 export default connect(selectors, actions)(YourConnectedComponent)
