@@ -62,8 +62,6 @@ export class SubscribableSearchApi {
     const search = this._createSearch()
 
     if (Array.isArray(fieldNamesOrIndexFunction)) {
-      // TODO Document the requirement that all resources have an :id attribute
-      // TODO Document the requirement that all resources must be Objects or Records (with getters)
       if (resources.forEach instanceof Function) {
         resources.forEach(resource => {
           fieldNamesOrIndexFunction.forEach(field => {
