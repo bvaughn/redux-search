@@ -1,10 +1,10 @@
 Documentation
 ------
 
-`redux-search` exports the following named assets:
+redux-search exports the following named assets:
 
 * [`createSearchAction`](#createsearchactionresourcename)
-* [`resourceName`](#getsearchselectorsresourcename-searchstateselector)
+* [`getSearchSelectors`](#getsearchselectorsresourcename-searchstateselector)
 * [`reducer`](#reducer)
 * [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
 * [`SearchApi`](#searchapi--workersearchap)
@@ -73,7 +73,7 @@ This function accepts the following named parameters (via a params Object):
 ##### resourceIndexes:
 Maps searchable resources to search configurations. Configurations must be one of the following types:
 1. an array of searchable field names (eg. `["name", "description"]`)
-2. a custom indexing function (eg. `({ resources: Iterable<Object>, indexDocument: Function })`)
+2. a custom indexing function (read more about that [here](reduxSearch.md))
 
 ##### resourceSelector:
 Selector responsible for returning an iterable resource map for a given, searchable resource. This function should be capable of returning a map for each resource listed in `resourceIndexes`. Its signature should look like this: `(resourceName: string, state: Object): Iterable<Object>`
@@ -87,7 +87,7 @@ Observable Search API. Should only be overridden for testing purposes. Refer to 
 Selects the search sub-state within the state store. A default implementation is provided. Override only if you add `searchReducer()` to the store somewhere other than `state.search`.
 
 ### `SearchApi` / `WorkerSearchAp`
-The search API is an observable that manages communication between the `redux-search` middleware and the underlying search utility. It maps resource names to search indicies and coordinates searches. Both a single-threaded implementation (`SearchApi`) and a web-worker implementation (`WorkerSearchAp`) are provided. By default the web-worker implementation is used but you can override this behavior with `reduxSearch()` like so:
+The search API is an observable that manages communication between the redux-search middleware and the underlying search utility. It maps resource names to search indicies and coordinates searches. Both a single-threaded implementation (`SearchApi`) and a web-worker implementation (`WorkerSearchAp`) are provided. By default the web-worker implementation is used but you can override this behavior with `reduxSearch()` like so:
 
 ```javascript
 import { SearchApi } from './SearchApi'
