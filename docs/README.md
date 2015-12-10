@@ -3,6 +3,13 @@ Documentation
 
 `redux-search` exports the following named assets:
 
+* [`createSearchAction`](#createsearchactionresourcename)
+* [`resourceName`](#getsearchselectorsresourcename-searchstateselector)
+* [`reducer`](#reducer)
+* [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
+* [`SearchApi`](#searchapi--workersearchap)
+* [`WorkerSearchAp`](#searchapi--workersearchap)
+
 ### `createSearchAction(resourceName)`
 Factory function that creates Redux search actions. This function requires a single parameter (a `resourceName` string) that identifies a searchable resource. For example:
 

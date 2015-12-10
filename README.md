@@ -10,7 +10,8 @@ Or install it yourself with NPM:
 npm install --save redux-search
 ```
 
-### Basic Usage
+Basic Usage
+---------
 
 Here is a quick introduction of `redux-search`. For more detailed information refer to the [API documentation](https://github.com/treasure-data/redux-search/tree/master/docs).
 
@@ -77,3 +78,13 @@ const actions = {
 
 export default connect(selectors, actions)(YourConnectedComponent)
 ```
+
+Changelog
+---------
+
+Changes are tracked in the [changelog](CHANGELOG.md).
+
+License
+---------
+
+*redux-search* is available under the MIT License.
