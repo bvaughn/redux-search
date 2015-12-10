@@ -1,7 +1,7 @@
 Documentation
 ------
 
-redux-search exports the following named assets:
+redux-search provides the following named exports:
 
 * [`createSearchAction`](#createsearchactionresourcename)
 * [`getSearchSelectors`](#getsearchselectorsresourcename-searchstateselector)
