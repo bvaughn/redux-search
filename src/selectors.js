@@ -6,7 +6,7 @@ export function defaultSearchStateSelector (state) {
 }
 
 /**
- * Creates convenience selectors for the specified resoruce.
+ * Creates convenience selectors for the specified resource.
  *
  * @param resourceName eg "databases"
  * @param searchStateSelector Returns the Search sub-state of the store; (state: Object): Object
