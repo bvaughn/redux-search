@@ -1,5 +1,10 @@
 redux-search
 -----
+
+<img src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" alt="React virtualized" data-canonical-src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" width="364" height="100" />
+
+<img src="https://circleci.com/gh/treasure-data/redux-search.svg?style=shield&circle-token=:circle-token" alt="Circle CI badge">
+
 Higher-order Redux library for searching collections of objects. Search algorithms based on [js-search](https://github.com/bvaughn/js-search) but with added web-worker support for better performance.
 
 Check out the live demo at [treasure-data.github.io/redux-search](http://treasure-data.github.io/redux-search/)
