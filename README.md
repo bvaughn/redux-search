@@ -3,7 +3,7 @@ redux-search
 
 <img src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" alt="React virtualized" data-canonical-src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" width="364" height="100" />
 
-[![Circle CI](https://circleci.com/gh/treasure-data/redux-search.svg?style=svg)](https://circleci.com/gh/treasure-data/redux-search)
+[![Circle CI][circle-image]][circle-url]
 
 Higher-order Redux library for searching collections of objects. Search algorithms based on [js-search](https://github.com/bvaughn/js-search) but with added web-worker support for better performance.
 
@@ -102,3 +102,6 @@ License
 ---------
 
 redux-search is available under the MIT License.
+
+[circle-image]: https://circleci.com/gh/treasure-data/redux-search.svg?style=svg&circle-token=d43a5f15e3ea25b337bcc63ca98361fd2555226c
+[circle-url]: https://circleci.com/gh/treasure-data/redux-search
