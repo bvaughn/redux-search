@@ -29,6 +29,12 @@
     "url": "https://github.com/treasure-data/redux-search/issues"
   },
   "homepage": "https://github.com/treasure-data/redux-search#readme",
+  "keywords": [
+    "redux",
+    "search",
+    "filter",
+    "react"
+  ],
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
