@@ -11,14 +11,6 @@ module.exports = {
     libraryTarget: 'umd',
     library: 'redux-search'
   },
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      amd: 'react',
-      root: 'React'
-    }
-  },
   plugins: [
   ],
   module: {
