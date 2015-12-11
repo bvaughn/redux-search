@@ -73,7 +73,7 @@ This function accepts the following named parameters (via a params Object):
 ##### resourceIndexes:
 Maps searchable resources to search configurations. Configurations must be one of the following types:
 1. an array of searchable field names (eg. `["name", "description"]`)
-2. a custom indexing function (read more about that [here](reduxSearch.md))
+2. a custom indexing function ([read more about that here](reduxSearch.md))
 
 ##### resourceSelector:
 Selector responsible for returning an iterable resource map for a given, searchable resource. This function should be capable of returning a map for each resource listed in `resourceIndexes`. Its signature should look like this: `(resourceName: string, state: Object): Iterable<Object>`
@@ -81,7 +81,7 @@ Selector responsible for returning an iterable resource map for a given, searcha
 If this value is specified then the search index will be automatically built/updated whenever resources change. Ommit this property if you wish to manage the search index manually.
 
 ##### Search:
-Observable Search API. Should only be overridden for testing purposes. Refer to [`SearchApi`](SearchApi.md) for more information if you choose to override this.
+Observable Search API. Should only be overridden for testing purposes. Refer to [`SearchApi`](#searchapi--workersearchapi) for more information if you choose to override this.
 
 ##### searchStateSelector:
 Selects the search sub-state within the state store. A default implementation is provided. Override only if you add `searchReducer()` to the store somewhere other than `state.search`.
