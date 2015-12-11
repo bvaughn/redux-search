@@ -36,4 +36,5 @@ p:last-of-type {
   height: 20px;
   line-height: 20px;
   padding: 0 .5em;
+  overflow-y: hidden;
 }
