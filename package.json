@@ -2,7 +2,7 @@
   "name": "redux-search",
   "version": "1.0.0",
   "description": "Redux bindings for client-side search",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
     "build": "npm run build:website && npm run build:dist",
     "build:website": "npm run clean:website && NODE_ENV=production webpack --config webpack.config.website.js -p --bail",

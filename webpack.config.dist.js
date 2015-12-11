@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: 'dist',
     filename: '[name].js',
-    libraryTarget: 'umd',
+    libraryTarget: 'commonjs2',
     library: 'redux-search'
   },
   plugins: [
