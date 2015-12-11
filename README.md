@@ -103,6 +103,5 @@ License
 
 redux-search is available under the MIT License.
 
-
-[circle-image]: https://circleci.com/gh/treasure-data/redux-search.svg
+[circle-image]: https://circleci.com/gh/treasure-data/redux-search.svg?style=svg&circle-token=d43a5f15e3ea25b337bcc63ca98361fd2555226c
 [circle-url]: https://circleci.com/gh/treasure-data/redux-search
