@@ -72,6 +72,7 @@ This function accepts the following named parameters (via a params Object):
 
 ##### resourceIndexes:
 Maps searchable resources to search configurations. Configurations must be one of the following types:
+
 1. an array of searchable field names (eg. `["name", "description"]`)
 2. a custom indexing function ([read more about that here](reduxSearch.md))
 
