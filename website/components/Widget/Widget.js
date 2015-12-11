@@ -55,6 +55,11 @@ export default function Widget ({
         className={styles.VirtualScroll}
         width={300}
         height={200}
+        noRowsRenderer={() => (
+          <div className={styles.noRows}>
+            {totalSize > 0 ? 'No results' : 'Generate data'}
+          </div>
+        )}
         rowsCount={filteredSize}
         rowHeight={20}
         rowRenderer={rowRenderer}
