@@ -8,7 +8,7 @@ redux-search provides the following named exports:
 * [`reducer`](#reducer)
 * [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
 * [`SearchApi`](#searchapi--workersearchapi)
-* [`SearchUtility`](#searchapi--searchutility)
+* [`SearchUtility`](#searchutility)
 * [`WorkerSearchApi`](#searchapi--workersearchapi)
 
 ### `createSearchAction(resourceName)`
