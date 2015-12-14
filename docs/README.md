@@ -7,8 +7,9 @@ redux-search provides the following named exports:
 * [`getSearchSelectors`](#getsearchselectorsresourcename-searchstateselector)
 * [`reducer`](#reducer)
 * [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
-* [`SearchApi`](#searchapi--workersearchapi)
-* [`WorkerSearchApi`](#searchapi--workersearchapi)
+* [`SearchApi`](#searchapi--workersearchapicapabilitiesbasedsearchapi)
+* [`WorkerSearchApi`](#searchapi--workersearchapicapabilitiesbasedsearchapi)
+* [`CapabilitiesBasedSearchApi`](#searchapi--workersearchapicapabilitiesbasedsearchapi)
 
 ### `createSearchAction(resourceName)`
 Factory function that creates Redux search actions. This function requires a single parameter (a `resourceName` string) that identifies a searchable resource. For example:
@@ -87,8 +88,10 @@ Observable Search API. Should only be overridden for testing purposes. Refer to 
 ##### searchStateSelector:
 Selects the search sub-state within the state store. A default implementation is provided. Override only if you add `searchReducer()` to the store somewhere other than `state.search`.
 
-### `SearchApi` / `WorkerSearchApi`
-The search API is an observable that manages communication between the redux-search middleware and the underlying search utility. It maps resource names to search indicies and coordinates searches. Both a single-threaded implementation (`SearchApi`) and a web-worker implementation (`WorkerSearchApi`) are provided. By default the web-worker implementation is used but you can override this behavior with `reduxSearch()` like so:
+### `SearchApi` / `WorkerSearchApi` / `CapabilitiesBasedSearchApi`
+The search API is an observable that manages communication between the redux-search middleware and the underlying search utility. It maps resource names to search indicies and coordinates searches. Both a single-threaded implementation (`SearchApi`) and a web-worker implementation (`WorkerSearchApi`) are provided.
+
+By default a capabilities-based search API is used (`CapabilitiesBasedSearchApi`) that auto-detects web worker support and uses the best implementation for the current environment. You can override this behavior with `reduxSearch()` for testing purposes like so:
 
 ```javascript
 import { SearchApi } from './SearchApi'

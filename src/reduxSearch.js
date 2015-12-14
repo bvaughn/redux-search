@@ -3,7 +3,7 @@ import { defaultSearchStateSelector } from './selectors'
 import * as actions from './actions'
 import { SEARCH_STATE_SELECTOR } from './constants'
 import searchMiddleware from './searchMiddleware'
-import { WorkerSearchApi } from './SearchApi'
+import { CapabilitiesBasedSearchApi } from './SearchApi'
 
 /**
  * Creates higher-order search store to be composed with other store enhancers.
@@ -30,7 +30,7 @@ import { WorkerSearchApi } from './SearchApi'
 export default function reduxSearch ({
   resourceIndexes = {},
   resourceSelector,
-  searchApi = new WorkerSearchApi(),
+  searchApi = new CapabilitiesBasedSearchApi(),
   searchStateSelector = defaultSearchStateSelector
 } = {}) {
   return createStore => (reducer, initialState) => {

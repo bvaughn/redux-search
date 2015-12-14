@@ -57,6 +57,7 @@ export class SubscribableSearchApi {
    *   It is either an Array of searchable fields (to be auto-indexed)
    *   Or a custom index function to be called with a :resources object and an :indexDocument callback
    * @param resources Map of resource uid to resource (Object)
+   * @return Internal Search instance
    */
   indexResource (resourceName, fieldNamesOrIndexFunction, resources) {
     const search = this._createSearch()
@@ -86,6 +87,8 @@ export class SubscribableSearchApi {
     }
 
     this._resourceToSearchMap[resourceName] = search
+
+    return search
   }
 
   /**
@@ -148,6 +151,22 @@ export class SearchApi extends SubscribableSearchApi {
 export class WorkerSearchApi extends SubscribableSearchApi {
   constructor () {
     super(() => new WorkerSearch())
+  }
+}
+
+/**
+ * Search API that uses web workers when available.
+ * Indexing and searching is performed in the UI thread as a fallback when web workers aren't supported.
+ */
+export class CapabilitiesBasedSearchApi extends SubscribableSearchApi {
+  constructor () {
+    // Based on https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+    // But with added check for Node environment
+    if (typeof window !== 'undefined' && window.Worker) {
+      super(() => new WorkerSearch())
+    } else {
+      super(() => new Search())
+    }
   }
 }
 
