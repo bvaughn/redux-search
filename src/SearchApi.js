@@ -57,7 +57,6 @@ export class SubscribableSearchApi {
    *   It is either an Array of searchable fields (to be auto-indexed)
    *   Or a custom index function to be called with a :resources object and an :indexDocument callback
    * @param resources Map of resource uid to resource (Object)
-   * @return Internal Search instance
    */
   indexResource (resourceName, fieldNamesOrIndexFunction, resources) {
     const search = this._createSearch()
@@ -87,8 +86,6 @@ export class SubscribableSearchApi {
     }
 
     this._resourceToSearchMap[resourceName] = search
-
-    return search
   }
 
   /**
