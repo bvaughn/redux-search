@@ -7,6 +7,7 @@ redux-search provides the following named exports:
 * [`getSearchSelectors`](#getsearchselectorsresourcename-searchstateselector)
 * [`reducer`](#reducer)
 * [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
+[`CapabilitiesBasedSearchApi`](#searchapi--workersearchapicapabilitiesbasedsearchapi)
 * [`SearchApi`](#searchapi--workersearchapi)
 * [`SearchUtility`](#searchutility)
 * [`WorkerSearchApi`](#searchapi--workersearchapi)
@@ -109,8 +110,10 @@ Document searches are case-insensitive (e.g. "search" will match "Search"). Docu
 
 This method will return an array of uids.
 
-### `SearchApi` / `WorkerSearchApi`
-The search API is an observable that manages communication between the redux-search middleware and the underlying search utility. It maps resource names to search indicies and coordinates searches. Both a single-threaded implementation (`SearchApi`) and a web-worker implementation (`WorkerSearchApi`) are provided. By default the web-worker implementation is used but you can override this behavior with `reduxSearch()` like so:
+### `SearchApi` / `WorkerSearchApi` / `CapabilitiesBasedSearchApi`
++The search API is an observable that manages communication between the redux-search middleware and the underlying search utility. It maps resource names to search indicies and coordinates searches. Both a single-threaded implementation (`SearchApi`) and a web-worker implementation (`WorkerSearchApi`) are provided.
+
+By default a capabilities-based search API is used (`CapabilitiesBasedSearchApi`) that auto-detects web worker support and uses the best implementation for the current environment. You can override this behavior with `reduxSearch()` for testing purposes like so:
 
 ```javascript
 import { SearchApi } from './SearchApi'

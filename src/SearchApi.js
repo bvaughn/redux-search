@@ -151,3 +151,19 @@ export class WorkerSearchApi extends SubscribableSearchApi {
   }
 }
 
+/**
+ * Search API that uses web workers when available.
+ * Indexing and searching is performed in the UI thread as a fallback when web workers aren't supported.
+ */
+export class CapabilitiesBasedSearchApi extends SubscribableSearchApi {
+  constructor () {
+    // Based on https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+    // But with added check for Node environment
+    if (typeof window !== 'undefined' && window.Worker) {
+      super(() => new WorkerSearch())
+    } else {
+      super(() => new Search())
+    }
+  }
+}
+
