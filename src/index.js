@@ -11,6 +11,7 @@ import {
   SearchApi,
   WorkerSearchApi
 } from './SearchApi'
+import { Search } from './lib'
 
 export default reduxSearch
 export {
@@ -19,7 +20,8 @@ export {
   reducer,
   reduxSearch,
   search as createSearchAction,
+  Search as SearchUtility,
+  CapabilitiesBasedSearchApi,
   SearchApi,
-  WorkerSearchApi,
-  CapabilitiesBasedSearchApi
+  WorkerSearchApi
 }
