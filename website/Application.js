@@ -1,5 +1,5 @@
 /** @flow */
-import { actions, filteredIdArray, filteredIdList, immutableMap, map } from './resources'
+import { actions, dataSearchText, filteredIdArray, filteredIdList, immutableDataSearchText, immutableMap, map } from './resources'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import { Card, CardWrapper } from './components/Card'
@@ -8,23 +8,28 @@ import Header from './components/Header'
 import Immutable from 'immutable'
 import React, { PropTypes } from 'react'
 import Widget from './components/Widget'
+import Highlighter from 'react-highlight-words'
 import styles from './Application.css'
 
 Application.propTypes = {
+  dataSearchText: PropTypes.string.isRequired,
   generateData: PropTypes.func.isRequired,
   generateImmutableData: PropTypes.func.isRequired,
   filteredIdArray: PropTypes.array.isRequired,
   filteredIdList: PropTypes.instanceOf(Immutable.List).isRequired,
+  immutableDataSearchText: PropTypes.string.isRequired,
   immutableMap: PropTypes.any.isRequired,
   map: PropTypes.object.isRequired,
   searchData: PropTypes.func.isRequired,
   searchImmutableData: PropTypes.func.isRequired
 }
 export default function Application ({
+  dataSearchText,
   generateData,
   generateImmutableData,
   filteredIdArray,
   filteredIdList,
+  immutableDataSearchText,
   immutableMap,
   map,
   searchData,
@@ -58,7 +63,11 @@ export default function Application ({
                     key={index}
                     className={styles.Row}
                   >
-                    {contact.name}, {contact.title}
+                    <Highlighter
+                      highlightClassName={styles.Highlight}
+                      searchWords={immutableDataSearchText.split(/\s+/)}
+                      textToHighlight={`${contact.name}, ${contact.title}`}
+                    />
                   </div>
                 )
               }
@@ -80,7 +89,11 @@ export default function Application ({
                     key={index}
                     className={styles.Row}
                   >
-                    {contact.name}, {contact.title}
+                    <Highlighter
+                      highlightClassName={styles.Highlight}
+                      searchWords={dataSearchText.split(/\s+/)}
+                      textToHighlight={`${contact.name}, ${contact.title}`}
+                    />
                   </div>
                 )
               }
@@ -96,10 +109,12 @@ export default function Application ({
 }
 
 const selectors = createSelector(
-  [filteredIdArray, filteredIdList, immutableMap, map],
-  (filteredIdArray, filteredIdList, immutableMap, map) => ({
+  [dataSearchText, filteredIdArray, filteredIdList, immutableDataSearchText, immutableMap, map],
+  (dataSearchText, filteredIdArray, filteredIdList, immutableDataSearchText, immutableMap, map) => ({
+    dataSearchText,
     filteredIdArray,
     filteredIdList,
+    immutableDataSearchText,
     immutableMap,
     map
   })

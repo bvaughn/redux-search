@@ -61,7 +61,7 @@ export default function Widget ({
           </div>
         )}
         rowsCount={filteredSize}
-        rowHeight={20}
+        rowHeight={25}
         rowRenderer={rowRenderer}
       />
     </div>

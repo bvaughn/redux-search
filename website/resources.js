@@ -93,11 +93,11 @@ export const map = createSelector([resources], resources => resources.map)
 export const immutableMap = createSelector([resources], resources => resources.immutableMap)
 
 const selectors = getSearchSelectors('map')
-export const searchData = selectors.text
+export const dataSearchText = selectors.text
 export const filteredIdArray = selectors.result
 
 const immutableSelectors = getSearchSelectors('immutableMap')
-export const searchImmutableData = immutableSelectors.text
+export const immutableDataSearchText = immutableSelectors.text
 export const filteredIdList = createSelector([immutableSelectors.result], result => Immutable.List(result))
 
 export function reducer (state = new State(), action: Object): State {

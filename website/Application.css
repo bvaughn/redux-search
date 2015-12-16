@@ -32,9 +32,13 @@ p:last-of-type {
   overflow-x: hidden;
   text-overflow: ellipsis;
   border-bottom: 1px solid #e8e8e8;
-  font-size: .75em;
-  height: 20px;
-  line-height: 20px;
+  font-size: 1em;
+  height: 25px;
+  line-height: 25px;
   padding: 0 .5em;
   overflow-y: hidden;
+}
+
+.Highlight {
+  background-color: #fffec0;
 }

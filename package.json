@@ -78,6 +78,7 @@
   },
   "dependencies": {
     "node-uuid": "^1.4.7",
+    "react-highlight-words": "^0.1.1",
     "redux": "^3.0.4"
   }
 }
