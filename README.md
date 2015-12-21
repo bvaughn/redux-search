@@ -24,7 +24,7 @@ redux-search searches collections of documents and returns results as an `Array`
 
 Because of this, each document _must contain an `id` attribute_.
 
-redux-search provides provides an [action](docs/README.md#createsearchactionresourcename) for searching resources as well as [selectors](docs/README.md#getsearchselectorsresourcename-searchstateselector) for getting search results and the current search text. It then watches the store for resource changes and automatically updates search results as needed.
+redux-search provides provides an [action](docs/README.md#createsearchactionresourcename) for searching resources as well as [selectors](docs/README.md#getsearchselectors-filterfunction-resourcename-resourceselector-searchstateselector-) for getting search results and the current search text. It then watches the store for resource changes and automatically updates search results as needed.
 
 Example
 ---------

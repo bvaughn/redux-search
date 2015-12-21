@@ -4,10 +4,10 @@ Documentation
 redux-search provides the following named exports:
 
 * [`createSearchAction`](#createsearchactionresourcename)
-* [`getSearchSelectors`](#getsearchselectorsresourcename-searchstateselector)
+* [`getSearchSelectors`](#getsearchselectors-filterfunction-resourcename-resourceselector-searchstateselector-)
 * [`reducer`](#reducer)
 * [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
-[`CapabilitiesBasedSearchApi`](#searchapi--workersearchapicapabilitiesbasedsearchapi)
+* [`CapabilitiesBasedSearchApi`](#searchapi--workersearchapicapabilitiesbasedsearchapi)
 * [`SearchApi`](#searchapi--workersearchapi)
 * [`SearchUtility`](#searchutility)
 * [`WorkerSearchApi`](#searchapi--workersearchapi)
@@ -23,12 +23,25 @@ const actions = {
 }
 ```
 
-### `getSearchSelectors(resourceName, searchStateSelector)`
+### `getSearchSelectors({ filterFunction, resourceName, resourceSelector, searchStateSelector })`
 
-Creates selectors for a searchable resource.
+Creates selectors for a searchable resource. This function returns an object with selectors defined as the following properties:
+
+* **text**: Selector that returns the current search text for a given searchable resource.
+* **result**: Selector that returns the current result list for a given searchable resource. This list is pre-filtered to ensure that all ids exist within the current resource collection.
+* **unfilteredResult**: Selector that returns the current result list for a given searchable resource. This list is not pre-filtered and should only be used for computed resources.
+
+This method accepts the following named parameters:
+
+##### filterFunction
+
+Custom filter function for computed resources. A default filter function capable of supporting plain Objects and immutable Maps is provided. If you provide your own filter function it should have the following signature: `(id: string): boolean`
 
 ##### resourceName
 Identifies a searchable resource (eg. 'books')
+
+##### resourceSelector:
+Selector responsible for returning an iterable resource map for a given, searchable resource. This function should be capable of returning a map for each resource listed in `resourceIndexes`. Its signature should look like this: `(resourceName: string, state: Object): Iterable<Object>`
 
 ##### searchStateSelector
 Responsible for returning the Search state. A default implementation is provided. Override only if you add `searchReducer()` to the store somewhere other than `state.search`.
