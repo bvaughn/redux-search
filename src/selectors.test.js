@@ -14,7 +14,7 @@ import {
   getUnfilteredResultSelector
 } from './selectors'
 
-const RESOURCE_NAME = RESOURCE_NAME
+const RESOURCE_NAME = 'users'
 
 test('getSearchSelectors should return a wrapper containing the correct default selectors', t => {
   const wrapper = getSearchSelectors({
