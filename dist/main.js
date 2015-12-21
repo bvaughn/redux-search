@@ -74,12 +74,16 @@ module.exports =
 	
 	var _SearchApi = __webpack_require__(17);
 	
+	var _lib = __webpack_require__(18);
+	
 	exports['default'] = _reduxSearch2['default'];
 	exports.defaultSearchStateSelector = _selectors.defaultSearchStateSelector;
 	exports.getSearchSelectors = _selectors.getSearchSelectors;
 	exports.reducer = _reducer2['default'];
 	exports.reduxSearch = _reduxSearch2['default'];
 	exports.createSearchAction = _actions.search;
+	exports.SearchUtility = _lib.Search;
+	exports.CapabilitiesBasedSearchApi = _SearchApi.CapabilitiesBasedSearchApi;
 	exports.SearchApi = _SearchApi.SearchApi;
 	exports.WorkerSearchApi = _SearchApi.WorkerSearchApi;
 
@@ -97,6 +101,9 @@ module.exports =
 	});
 	exports.defaultSearchStateSelector = defaultSearchStateSelector;
 	exports.getSearchSelectors = getSearchSelectors;
+	exports.getTextSelector = getTextSelector;
+	exports.getResultSelector = getResultSelector;
+	exports.getUnfilteredResultSelector = getUnfilteredResultSelector;
 	
 	function defaultSearchStateSelector(state) {
 	  return state.search;
@@ -105,27 +112,96 @@ module.exports =
 	/**
 	 * Creates convenience selectors for the specified resource.
 	 *
+	 * @param filterFunction Custom filter function for resources that are computed (not basic maps)
+	 * @param resourceName eg "databases"
+	 * @param resourceSelector Returns an iterable resouce map for a given, searchable resource.
+	 * @param searchStateSelector Returns the Search sub-state of the store; (state: Object): Object
+	 */
+	
+	function getSearchSelectors(_ref) {
+	  var filterFunction = _ref.filterFunction;
+	  var resourceName = _ref.resourceName;
+	  var resourceSelector = _ref.resourceSelector;
+	  var _ref$searchStateSelector = _ref.searchStateSelector;
+	  var searchStateSelector = _ref$searchStateSelector === undefined ? defaultSearchStateSelector : _ref$searchStateSelector;
+	
+	  return {
+	    text: getTextSelector({ resourceName: resourceName, searchStateSelector: searchStateSelector }),
+	    result: getResultSelector({ filterFunction: filterFunction, resourceName: resourceName, resourceSelector: resourceSelector, searchStateSelector: searchStateSelector }),
+	    unfilteredResult: getUnfilteredResultSelector({ resourceName: resourceName, searchStateSelector: searchStateSelector })
+	  };
+	}
+	
+	/**
+	 * Returns the current search text for a given searchable resource.
+	 *
 	 * @param resourceName eg "databases"
 	 * @param searchStateSelector Returns the Search sub-state of the store; (state: Object): Object
 	 */
 	
-	function getSearchSelectors(resourceName) {
-	  var searchStateSelector = arguments.length <= 1 || arguments[1] === undefined ? defaultSearchStateSelector : arguments[1];
+	function getTextSelector(_ref2) {
+	  var resourceName = _ref2.resourceName;
+	  var _ref2$searchStateSelector = _ref2.searchStateSelector;
+	  var searchStateSelector = _ref2$searchStateSelector === undefined ? defaultSearchStateSelector : _ref2$searchStateSelector;
 	
-	  var searchSelector = function searchSelector(state) {
-	    return searchStateSelector(state)[resourceName];
+	  return function textSelector(state) {
+	    return searchStateSelector(state)[resourceName].text;
 	  };
+	}
 	
-	  return {
-	    text: function text(state) {
-	      return searchSelector(state).text;
-	    },
-	    result: function result(state) {
-	      return searchSelector(state).result;
-	    },
-	    isLoading: function isLoading(state) {
-	      return searchSelector(state).isLoading;
-	    }
+	/**
+	 * Creates a default filter function capable of handling Maps and Objects.
+	 */
+	function createFilterFunction(resource) {
+	  return resource.has instanceof Function ? function (id) {
+	    return resource.has(id);
+	  } : function (id) {
+	    return resource[id];
+	  };
+	}
+	
+	/**
+	 * Returns the current result list for a given searchable resource.
+	 * This list is pre-filtered to ensure that all ids exist within the current resource collection.
+	 *
+	 * @param filterFunction Custom filter function for resources that are computed (not basic maps)
+	 * @param resourceName eg "databases"
+	 * @param resourceSelector Returns an iterable resouce map for a given, searchable resource.
+	 * @param searchStateSelector Returns the Search sub-state of the store; (state: Object): Object
+	 */
+	
+	function getResultSelector(_ref3) {
+	  var filterFunction = _ref3.filterFunction;
+	  var resourceName = _ref3.resourceName;
+	  var resourceSelector = _ref3.resourceSelector;
+	  var _ref3$searchStateSelector = _ref3.searchStateSelector;
+	  var searchStateSelector = _ref3$searchStateSelector === undefined ? defaultSearchStateSelector : _ref3$searchStateSelector;
+	
+	  var unfilteredResultSelector = getUnfilteredResultSelector({ resourceName: resourceName, searchStateSelector: searchStateSelector });
+	
+	  return function resultSelector(state) {
+	    var result = unfilteredResultSelector(state);
+	    var resource = resourceSelector(resourceName, state);
+	
+	    return result.filter(filterFunction || createFilterFunction(resource));
+	  };
+	}
+	
+	/**
+	 * Returns the current result list for a given searchable resource.
+	 * This list is not pre-filtered; see issue #29 for more backstory.
+	 *
+	 * @param resourceName eg "databases"
+	 * @param searchStateSelector Returns the Search sub-state of the store; (state: Object): Object
+	 */
+	
+	function getUnfilteredResultSelector(_ref4) {
+	  var resourceName = _ref4.resourceName;
+	  var _ref4$searchStateSelector = _ref4.searchStateSelector;
+	  var searchStateSelector = _ref4$searchStateSelector === undefined ? defaultSearchStateSelector : _ref4$searchStateSelector;
+	
+	  return function resultSelector(state) {
+	    return searchStateSelector(state)[resourceName].result;
 	  };
 	}
 
@@ -293,7 +369,7 @@ module.exports =
 	  var resourceIndexes = _ref$resourceIndexes === undefined ? {} : _ref$resourceIndexes;
 	  var resourceSelector = _ref.resourceSelector;
 	  var _ref$searchApi = _ref.searchApi;
-	  var searchApi = _ref$searchApi === undefined ? new _SearchApi.WorkerSearchApi() : _ref$searchApi;
+	  var searchApi = _ref$searchApi === undefined ? new _SearchApi.CapabilitiesBasedSearchApi() : _ref$searchApi;
 	  var _ref$searchStateSelector = _ref.searchStateSelector;
 	  var searchStateSelector = _ref$searchStateSelector === undefined ? _selectors.defaultSearchStateSelector : _ref$searchStateSelector;
 	
@@ -1309,10 +1385,38 @@ module.exports =
 	    });
 	  }
 	
+	  /**
+	   * Search API that uses web workers when available.
+	   * Indexing and searching is performed in the UI thread as a fallback when web workers aren't supported.
+	   */
 	  return WorkerSearchApi;
 	})(SubscribableSearchApi);
 	
 	exports.WorkerSearchApi = WorkerSearchApi;
+	
+	var CapabilitiesBasedSearchApi = (function (_SubscribableSearchApi3) {
+	  _inherits(CapabilitiesBasedSearchApi, _SubscribableSearchApi3);
+	
+	  function CapabilitiesBasedSearchApi() {
+	    _classCallCheck(this, CapabilitiesBasedSearchApi);
+	
+	    // Based on https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+	    // But with added check for Node environment
+	    if (typeof window !== 'undefined' && window.Worker) {
+	      _get(Object.getPrototypeOf(CapabilitiesBasedSearchApi.prototype), 'constructor', this).call(this, function () {
+	        return new _lib2['default']();
+	      });
+	    } else {
+	      _get(Object.getPrototypeOf(CapabilitiesBasedSearchApi.prototype), 'constructor', this).call(this, function () {
+	        return new _lib.Search();
+	      });
+	    }
+	  }
+	
+	  return CapabilitiesBasedSearchApi;
+	})(SubscribableSearchApi);
+	
+	exports.CapabilitiesBasedSearchApi = CapabilitiesBasedSearchApi;
 
 	// Promise.resolve handles both synchronous and web-worker versions of Search
 

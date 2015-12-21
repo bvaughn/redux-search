@@ -1,6 +1,6 @@
 {
   "name": "redux-search",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Redux bindings for client-side search",
   "main": "dist/main.js",
   "scripts": {
