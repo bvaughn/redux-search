@@ -5,7 +5,7 @@ redux-search
 
 [![Circle CI][circle-image]][circle-url]
 
-Higher-order Redux library for searching collections of objects. Search algorithms based on [js-search](https://github.com/bvaughn/js-search) but with added web-worker support for better performance.
+Higher-order Redux library for searching collections of objects. Search algorithms powered by [js-worker-search](https://github.com/bvaughn/js-worker-search).
 
 Check out the live demo at [treasure-data.github.io/redux-search](http://treasure-data.github.io/redux-search/)
 
@@ -35,7 +35,7 @@ redux-search watches the store for changes to searchable collections and automat
 
 ```javascript
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import { reducer as searchReducer, reduxSearch } from '../src/index'
+import { reducer as searchReducer, reduxSearch } from 'redux-search'
 
 // Configure reducer to store state at state.search
 // You can store it elsewhere but you will need to supply your own :searchStateSelector
