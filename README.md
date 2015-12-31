@@ -3,6 +3,10 @@ redux-search
 
 <img src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" alt="React virtualized" data-canonical-src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" width="364" height="100" />
 
+![NPM version](https://img.shields.io/npm/v/redux-search.svg)
+![NPM license](https://img.shields.io/npm/l/redux-search.svg)
+![NPM total downloads](https://img.shields.io/npm/dt/redux-search.svg)
+![NPM monthly downloads](https://img.shields.io/npm/dm/redux-search.svg)
 [![Circle CI][circle-image]][circle-url]
 
 Higher-order Redux library for searching collections of objects. Search algorithms based on [js-search](https://github.com/bvaughn/js-search) but with added web-worker support for better performance.
