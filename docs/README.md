@@ -7,7 +7,7 @@ redux-search provides the following named exports:
 * [`getSearchSelectors`](#getsearchselectors-filterfunction-resourcename-resourceselector-searchstateselector-)
 * [`reducer`](#reducer)
 * [`reduxSearch`](#reduxsearch-resourceindexes-resourceselector-searchapi-searchstateselector-)
-* [`SearchApi`](#searchapi--searchapi)
+* [`SearchApi`](#searchapi)
 
 ### `createSearchAction(resourceName)`
 Factory function that creates Redux search actions. This function requires a single parameter (a `resourceName` string) that identifies a searchable resource. For example:
