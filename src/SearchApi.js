@@ -1,19 +1,16 @@
 /** @flow */
-import WorkerSearch, { Search } from './lib'
+import Search from 'js-worker-search'
 
 /**
  * Observable that manages communication between redux-search middleware and the Search utility.
  * This class maps resource names to search indicies and manages subscribers.
  */
-export class SubscribableSearchApi {
+export default class SubscribableSearchApi {
 
   /**
    * Constructor.
-   *
-   * @param createSearch Factory function responsible for creating a Search instance
    */
-  constructor (createSearch) {
-    this._createSearch = createSearch
+  constructor () {
     this._resourceToSearchMap = {}
 
     // Subscribers
@@ -59,7 +56,7 @@ export class SubscribableSearchApi {
    * @param resources Map of resource uid to resource (Object)
    */
   indexResource (resourceName, fieldNamesOrIndexFunction, resources) {
-    const search = this._createSearch()
+    const search = new Search()
 
     if (Array.isArray(fieldNamesOrIndexFunction)) {
       if (resources.forEach instanceof Function) {
@@ -98,9 +95,7 @@ export class SubscribableSearchApi {
   async performSearch (resourceName, text) {
     try {
       const search = this._resourceToSearchMap[resourceName]
-
-      // Promise.resolve handles both synchronous and web-worker versions of Search
-      const result = await Promise.resolve(search.search(text))
+      const result = await search.search(text)
 
       this._notifyNext({
         result,
@@ -130,40 +125,3 @@ export class SubscribableSearchApi {
     )
   }
 }
-
-/**
- * Single-threaded search API.
- * This implementation is provided for browsers that do not support web workers.
- */
-export class SearchApi extends SubscribableSearchApi {
-  constructor () {
-    super(() => new Search())
-  }
-}
-
-/**
- * Web worker search API.
- * Indexing and searching is performed in a web worker thread.
- */
-export class WorkerSearchApi extends SubscribableSearchApi {
-  constructor () {
-    super(() => new WorkerSearch())
-  }
-}
-
-/**
- * Search API that uses web workers when available.
- * Indexing and searching is performed in the UI thread as a fallback when web workers aren't supported.
- */
-export class CapabilitiesBasedSearchApi extends SubscribableSearchApi {
-  constructor () {
-    // Based on https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
-    // But with added check for Node environment
-    if (typeof window !== 'undefined' && window.Worker) {
-      super(() => new WorkerSearch())
-    } else {
-      super(() => new Search())
-    }
-  }
-}
-

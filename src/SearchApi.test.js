@@ -1,5 +1,5 @@
 import test from 'tape'
-import { SearchApi } from './SearchApi'
+import SearchApi from './SearchApi'
 
 function getSearchApi () {
   const documentA = {id: 1, name: 'One', description: 'The first document'}
