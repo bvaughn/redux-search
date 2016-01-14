@@ -1,13 +1,13 @@
 redux-search
 -----
 
-<img src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" alt="React virtualized" data-canonical-src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" width="364" height="100" />
+<img src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" alt="Redux Search" data-canonical-src="https://cloud.githubusercontent.com/assets/29597/11708504/c2f637ce-9ec4-11e5-8eb9-c248664e8d3b.png" width="364" height="100" />
 
 ![NPM version](https://img.shields.io/npm/v/redux-search.svg)
 ![NPM license](https://img.shields.io/npm/l/redux-search.svg)
 ![NPM total downloads](https://img.shields.io/npm/dt/redux-search.svg)
 ![NPM monthly downloads](https://img.shields.io/npm/dm/redux-search.svg)
-[![Circle CI][circle-image]][circle-url]
+[![Circle CI badge](https://img.shields.io/circleci/project/treasure-data/redux-search/master.svg)](https://circleci.com/gh/treasure-data/redux-search)
 
 Higher-order Redux library for searching collections of objects. Search algorithms powered by [js-worker-search](https://github.com/bvaughn/js-worker-search).
 
@@ -106,6 +106,3 @@ License
 ---------
 
 redux-search is available under the MIT License.
-
-[circle-image]: https://img.shields.io/circleci/project/treasure-data/redux-search.svg
-[circle-url]: https://circleci.com/gh/treasure-data/redux-search
