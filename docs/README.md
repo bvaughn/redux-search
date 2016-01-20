@@ -51,6 +51,7 @@ import { createSelector } from 'reselect'
 import { getSearchSelectors } from 'redux-search'
 
 const { text, result } = getSearchSelectors('books')
+const books = state => state.getIn(['resources', 'books'])
 
 const selectors = createSelector(
   [result, books, text],

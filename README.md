@@ -52,12 +52,15 @@ const rootReducer = combineReducers({
 const store = compose(
   applyMiddleware(...yourMiddleware),
   reduxSearch({
+    // Configure redux-search by telling it which resources to index for searching
     resourceIndexes: {
-      // Search configuration here (eg. search all Books by :title and :author)
+      // In this example Books will be searchable by :title and :author
       books: ['author', 'title']
     },
+    // This selector is responsible for returning each collection of searchable resources
     resourceSelector: (resourceName, state) => {
-      // Resource selector here (eg. get books collection)
+      // In our example, all resources are stored in the state under a :resources Map
+      // For example "books" are stored under state.resources.books
       return state.resources.get(resourceName)
     }
   })
@@ -73,6 +76,10 @@ redux-search provides selectors and action-creators for easily connecting compon
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import { createSearchAction, getSearchSelectors } from 'redux-search'
+
+// :books is a map (Object or Immutable.Map) with ids as keys
+// These ids correspond to :result returned by getSearchSelectors('books')
+const books = state => state.getIn(['resources', 'books'])
 
 // :text is a selector that returns the text Books are currently filtered by
 // :result is an Array of Book ids that match the current seach :text (or all Books if there is no search :text)
