@@ -18,8 +18,8 @@ class MockSearchApi {
     this.subscribeCalls = []
   }
 
-  indexResource (resourceName, fieldNamesOrIndexFunction, resources) {
-    this.indexResourceCalls.push({ resourceName, fieldNamesOrIndexFunction, resources })
+  indexResource ({ fieldNamesOrIndexFunction, resourceName, resources, state }) {
+    this.indexResourceCalls.push({ fieldNamesOrIndexFunction, resourceName, resources, state })
   }
 
   async performSearch (resourceName, text) {

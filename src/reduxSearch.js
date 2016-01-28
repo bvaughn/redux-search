@@ -71,7 +71,12 @@ export default function reduxSearch ({
             const resourceIndex = resourceIndexes[resourceName]
             const searchString = searchState[resourceName].text
 
-            store.dispatch(actions.indexResource(resourceName, resourceIndex, resource))
+            store.dispatch(actions.indexResource({
+              fieldNamesOrIndexFunction: resourceIndex,
+              resourceName,
+              resources: resource,
+              state: nextState
+            }))
             store.dispatch(actions.search(resourceName)(searchString))
           }
         }
