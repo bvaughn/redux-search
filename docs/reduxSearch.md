@@ -21,7 +21,7 @@ const store = compose(
   reduxSearch({
     // Other configuration goes here...
     resourceIndexes: {
-      books: ({ resources, indexDocument }) => {
+      books: ({ resources, indexDocument, state }) => {
         resources.forEach(book => {
           indexDocument(book.id, book.name)
           book.authors.forEach(
@@ -35,3 +35,5 @@ const store = compose(
 ```
 
 You can use the `indexDocument` callback to index your collection on as many fields as you would like. Indexing is done in a web-worker thread and so it won't block the UI.
+
+A `state` object is also specified in case your custom index needs to access any other part of your application store.
