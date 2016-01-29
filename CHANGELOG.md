@@ -1,5 +1,8 @@
 # Changelog
 
+# 2.1.0
+Named `state` object passed to custom resource-indexing functions in order to enable more flexible custom indices.
+
 # 2.0.0
 Extract web-worker search utilty into its own NPM package, [js-worker-search](https://github.com/bvaughn/js-worker-search). Moved web-worker support detection (previously managed by `CapabilitiesBasedSearchApi`) into that module as well to simplify the redux-search interface.
 

@@ -7,11 +7,12 @@ function getSearchApi () {
   const documentC = {id: 3, name: 'Three', description: 'The third document'}
 
   const searchApi = new SearchApi() // Single-threaded Search API for easier testing
-  searchApi.indexResource(
-    'documents',
-    ['name', 'description'],
-    [ documentA, documentB, documentC ]
-  )
+  searchApi.indexResource({
+    fieldNamesOrIndexFunction: ['name', 'description'],
+    resourceName: 'documents',
+    resources: [ documentA, documentB, documentC ],
+    state: {}
+  })
   return searchApi
 }
 
