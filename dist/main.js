@@ -414,7 +414,12 @@ module.exports =
 	                var resourceIndex = resourceIndexes[resourceName];
 	                var searchString = searchState[resourceName].text;
 	
-	                store.dispatch(actions.indexResource(resourceName, resourceIndex, resource));
+	                store.dispatch(actions.indexResource({
+	                  fieldNamesOrIndexFunction: resourceIndex,
+	                  resourceName: resourceName,
+	                  resources: resource,
+	                  state: nextState
+	                }));
 	                store.dispatch(actions.search(resourceName)(searchString));
 	              }
 	            }
@@ -1230,15 +1235,21 @@ module.exports =
 	    /**
 	     * Builds a searchable index of a set of resources.
 	     *
-	     * @param resourceName Uniquely identifies the resource (eg. "databases")
 	     * @param fieldNamesOrIndexFunction This value is passed to reduxSearch() factory during initialization
 	     *   It is either an Array of searchable fields (to be auto-indexed)
 	     *   Or a custom index function to be called with a :resources object and an :indexDocument callback
+	     * @param resourceName Uniquely identifies the resource (eg. "databases")
 	     * @param resources Map of resource uid to resource (Object)
+	     * @param state State object to be passed to custom resource-indexing functions
 	     */
 	  }, {
 	    key: 'indexResource',
-	    value: function indexResource(resourceName, fieldNamesOrIndexFunction, resources) {
+	    value: function indexResource(_ref) {
+	      var fieldNamesOrIndexFunction = _ref.fieldNamesOrIndexFunction;
+	      var resourceName = _ref.resourceName;
+	      var resources = _ref.resources;
+	      var state = _ref.state;
+	
 	      var search = new _jsWorkerSearch2['default']();
 	
 	      if (Array.isArray(fieldNamesOrIndexFunction)) {
@@ -1263,7 +1274,8 @@ module.exports =
 	      } else if (fieldNamesOrIndexFunction instanceof Function) {
 	        fieldNamesOrIndexFunction({
 	          indexDocument: search.indexDocument,
-	          resources: resources
+	          resources: resources,
+	          state: state
 	        });
 	      } else {
 	        throw Error('Expected resource index to be either an Array of fields or an index function');
