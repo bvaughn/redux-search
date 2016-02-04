@@ -49,7 +49,7 @@ const rootReducer = combineReducers({
 })
 
 // Compose :reduxSearch with other store enhancers
-const store = compose(
+const enhancer = compose(
   applyMiddleware(...yourMiddleware),
   reduxSearch({
     // Configure redux-search by telling it which resources to index for searching
@@ -64,7 +64,10 @@ const store = compose(
       return state.resources.get(resourceName)
     }
   })
-)(createStore)(rootReducer)
+)
+
+// Note: passing enhancer as the last argument to createStore requires redux@>=3.1.0
+const store = createStore(reducer, initialState, enhancer)
 ```
 
 #### Connecting a Component
