@@ -92,8 +92,8 @@ const {
 } = getSearchSelectors('books')
 
 const selectors = createSelector(
-  [bookIds, books, text],
-  (bookIds, books, text) => ({
+  [bookIds, books, searchText],
+  (bookIds, books, searchText) => ({
     bookIds,
     books,
     searchText

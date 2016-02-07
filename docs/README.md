@@ -58,7 +58,7 @@ const selectors = createSelector(
   (result, books, text) => ({
     bookIds: result,
     books,
-    searchText
+    searchText: text
   })
 )
 ```
