@@ -77,7 +77,10 @@ export default function reduxSearch ({
               resources: resource,
               state: nextState
             }))
-            store.dispatch(actions.search(resourceName)(searchString))
+            
+            if(searchString !== '') {
+              store.dispatch(actions.search(resourceName)(searchString))
+            }
           }
         }
       })
