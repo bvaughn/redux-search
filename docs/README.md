@@ -94,8 +94,8 @@ Selector responsible for returning an iterable resource map for a given, searcha
 
 If this value is specified then the search index will be automatically built/updated whenever resources change. Ommit this property if you wish to manage the search index manually.
 
-##### Search:
-Observable Search API. Should only be overridden for testing purposes. Refer to [`SearchApi`](#searchapi--workersearchapi) for more information if you choose to override this.
+##### searchApi:
+Observable Search API. Override for testing purposes or to integrate with a search library other than [js-worker-search](https://github.com/bvaughn/js-worker-search/). Refer to [`SearchApi`](#searchapi) for more information if you choose to override this interface.
 
 ##### searchStateSelector:
 Selects the search sub-state within the state store. A default implementation is provided. Override only if you add `searchReducer()` to the store somewhere other than `state.search`.
