@@ -30,6 +30,8 @@ Because of this, each document _must contain an `id` attribute_.
 
 redux-search provides an [action](docs/README.md#createsearchactionresourcename) for searching resources as well as [selectors](docs/README.md#getsearchselectors-filterfunction-resourcename-resourceselector-searchstateselector-) for getting search results and the current search text. It then watches the store for resource changes and automatically updates search results as needed.
 
+Note that redux-search currently depends on the Regenerator runtime. It is recommended that your project require the [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) to provide that runtime.
+
 Example
 ---------
 
