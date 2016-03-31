@@ -28,7 +28,7 @@ redux-search searches collections of documents and returns results as an `Array`
 
 Because of this, each document _must contain an `id` attribute_.
 
-redux-search provides provides an [action](docs/README.md#createsearchactionresourcename) for searching resources as well as [selectors](docs/README.md#getsearchselectors-filterfunction-resourcename-resourceselector-searchstateselector-) for getting search results and the current search text. It then watches the store for resource changes and automatically updates search results as needed.
+redux-search provides an [action](docs/README.md#createsearchactionresourcename) for searching resources as well as [selectors](docs/README.md#getsearchselectors-filterfunction-resourcename-resourceselector-searchstateselector-) for getting search results and the current search text. It then watches the store for resource changes and automatically updates search results as needed.
 
 Example
 ---------
@@ -87,12 +87,15 @@ const books = state => state.getIn(['resources', 'books'])
 // :text is a selector that returns the text Books are currently filtered by
 // :result is an Array of Book ids that match the current seach :text (or all Books if there is no search :text)
 const {
-  text as searchText,
-  result as bookIds
-} = getSearchSelectors('books')
+  text, // search text
+  result // book ids
+} = getSearchSelectors({
+  resourceName: 'books',
+  resourceSelector: (name, state) => state.resources.get(resourceName)
+})
 
 const selectors = createSelector(
-  [bookIds, books, searchText],
+  [result, books, text],
   (bookIds, books, searchText) => ({
     bookIds,
     books,
