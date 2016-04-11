@@ -93,7 +93,7 @@ const {
   result // book ids
 } = getSearchSelectors({
   resourceName: 'books',
-  resourceSelector: (name, state) => state.resources.get(resourceName)
+  resourceSelector: (resourceName, state) => state.resources.get(resourceName)
 })
 
 const selectors = createSelector(
