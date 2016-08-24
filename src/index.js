@@ -17,3 +17,4 @@ export {
   search as createSearchAction,
   SearchApi
 }
+export { INDEX_MODES } from 'js-worker-search'

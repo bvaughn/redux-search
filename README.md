@@ -72,6 +72,38 @@ const enhancer = compose(
 const store = createStore(reducer, initialState, enhancer)
 ```
 
+#### Customizing Search Index
+
+By default, redux-search builds an index to match all substrings.
+You can override this behavior by providing your own, pre-configured `searchApi` param to the middleware like so:
+
+```js
+import { reduxSearch, SearchApi, INDEX_MODES } from 'redux-search'
+
+// all-substrings match by default; same as current
+// eg "c", "ca", "a", "at", "cat" match "cat"
+const allSubstringsSearchApi = new SearchApi()
+
+// prefix matching (eg "c", "ca", "cat" match "cat")
+const prefixSearchApi = new SearchApi({
+  indexMode: INDEX_MODES.PREFIXES
+})
+
+// exact words matching (eg only "cat" matches "cat")
+const exactWordsSearchApi = new SearchApi({
+  indexMode: INDEX_MODES.EXACT_WORDS
+})
+
+const finalCreateStore = compose(
+  // Other middleware ...
+  reduxSearch({
+    resourceIndexes: { ... },
+    resourceSelector: (resourceName, state) => state.resources.get(resourceName),
+    searchApi: allSubstringsSearchApi || prefixSearchApi || exactWordsSearchApi
+  })
+)(createStore)
+```
+
 #### Connecting a Component
 
 redux-search provides selectors and action-creators for easily connecting components with the search state. For example, using `reselect` you might connect your component like so:

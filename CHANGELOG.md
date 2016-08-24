@@ -1,5 +1,25 @@
 # Changelog
 
+# 2.2.0
+Added support for configurable index strategy (supported in `js-worker-search` version 1.1.0).
+Search users can now choose between all-substring matches (default), prefix matches, and exact word matches only.
+To override the default, simply pass a configured `SearchApi` argument to the `reduxSearch` middleware like so:
+
+```js
+import { reduxSearch, SearchApi, INDEX_MODES } from 'redux-search'
+
+const indexMode = INDEX_MODES.PREFIXES || INDEX_MODES.EXACT_WORDS || INDEX_MODES.ALL_SUBSTRINGS
+
+const finalCreateStore = compose(
+  // Other middleware ...
+  reduxSearch({
+    resourceIndexes: { ... },
+    resourceSelector: (resourceName, state) => state.resources.get(resourceName),
+    searchApi: new SearchApi({ indexMode })
+  })
+)(createStore)
+```
+
 # 2.1.0
 Named `state` object passed to custom resource-indexing functions in order to enable more flexible custom indices.
 

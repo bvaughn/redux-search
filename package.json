@@ -1,6 +1,6 @@
 {
   "name": "redux-search",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Redux bindings for client-side search",
   "main": "dist/main.js",
   "scripts": {
@@ -77,7 +77,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
-    "js-worker-search": "^1.0.1",
+    "js-worker-search": "^1.1.0",
     "redux": "^3.0.4"
   }
 }

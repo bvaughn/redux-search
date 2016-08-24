@@ -10,7 +10,8 @@ export default class SubscribableSearchApi {
   /**
    * Constructor.
    */
-  constructor () {
+  constructor ({ indexMode } = {}) {
+    this._indexMode = indexMode
     this._resourceToSearchMap = {}
 
     // Subscribers
@@ -57,7 +58,9 @@ export default class SubscribableSearchApi {
    * @param state State object to be passed to custom resource-indexing functions
    */
   indexResource ({ fieldNamesOrIndexFunction, resourceName, resources, state }) {
-    const search = new Search()
+    const search = new Search({
+      indexMode: this._indexMode
+    })
 
     if (Array.isArray(fieldNamesOrIndexFunction)) {
       if (resources.forEach instanceof Function) {
