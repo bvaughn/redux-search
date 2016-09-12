@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
   devtool: 'eval',
   entry: [
-    'babel/polyfill',
+    'babel-polyfill',
     './website/index.js'
   ],
   output: {
@@ -18,24 +19,34 @@ module.exports = {
       inject: true,
       template: './website/index.html'
     }),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel',
+        loaders: ['babel'],
         exclude: path.join(__dirname, 'node_modules')
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css?modules&importLoaders=1', 'cssnext'],
+        loaders: ['style', 'css?modules&importLoaders=1', 'postcss'],
         exclude: path.join(__dirname, 'node_modules')
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css?importLoaders=1'],
+        include: path.join(__dirname, 'styles.css')
       }
     ]
   },
+  postcss: function () {
+    return [autoprefixer]
+  },
   devServer: {
     contentBase: 'build',
-    port: 3456
+    port: 3456,
+    quiet: true
   }
 }

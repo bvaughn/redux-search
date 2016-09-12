@@ -3,7 +3,7 @@
  * @flow
  */
 import { createSelector } from 'reselect'
-import { createSearchAction, getSearchSelectors } from '../src/index'
+import { createSearchAction, getSearchSelectors } from '../source/index'
 import faker from 'faker'
 import Immutable from 'immutable'
 import keymirror from 'keymirror'

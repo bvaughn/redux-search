@@ -1,5 +1,9 @@
 # Changelog
 
+# 2.3.0
+Added CommonJS and ES6 module builds (as well as the pre-existing UMD build_.
+ComonJS build is now the default `package.json` target instead of the UMD target.
+
 # 2.2.0
 Added support for configurable index strategy (supported in `js-worker-search` version 1.1.0).
 Search users can now choose between all-substring matches (default), prefix matches, and exact word matches only.
