@@ -69,7 +69,7 @@ The root reducer for redux-search. It is recommended that you add this to the ap
 
 ```javascript
 import { combineReducers } from 'redux'
-import { reducer } from '../src/index'
+import { reducer } from 'redux-search'
 
 const rootReducer = combineReducers({
   search: reducer

@@ -23,7 +23,7 @@ Application.propTypes = {
   searchData: PropTypes.func.isRequired,
   searchImmutableData: PropTypes.func.isRequired
 }
-export default function Application ({
+export function Application ({
   dataSearchText,
   generateData,
   generateImmutableData,

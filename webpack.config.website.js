@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
   devtool: 'source-map',
   entry: [
-    'babel/polyfill',
+    'babel-polyfill',
     './website/index.js'
   ],
   output: {
@@ -28,14 +29,22 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel',
+        loaders: ['babel'],
         exclude: path.join(__dirname, 'node_modules')
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css?modules&importLoaders=1', 'cssnext'],
+        loaders: ['style', 'css?modules&importLoaders=1', 'postcss'],
         exclude: path.join(__dirname, 'node_modules')
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css?importLoaders=1'],
+        include: path.join(__dirname, 'styles.css')
       }
     ]
+  },
+  postcss: function () {
+    return [autoprefixer]
   }
 }
