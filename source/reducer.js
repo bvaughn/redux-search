@@ -10,7 +10,7 @@ import {
  * By default it is assumed that this reducer will be added at :search.
  * If you use another location you must pass a custom :searchStateSelector to reduxSearch().
  */
-export default function searchReducer (state = {}, { payload, type }) {
+export default function searchReducer (state = {}, { payload, type } = {}) {
   if (handlers.hasOwnProperty(type)) {
     return handlers[type](state, payload)
   } else {
