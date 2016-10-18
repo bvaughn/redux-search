@@ -1,5 +1,9 @@
 # Changelog
 
+# 2.3.2
+Builds updated to depend on Babel's `babel-runtime` rather than referencing global `babelHelpers`.
+Added `module` attribute to `package.json` to point Webpack 2 towards ES module dist.
+
 # 2.3.1
 Added guard against undefined Redux action in reducer.
 
