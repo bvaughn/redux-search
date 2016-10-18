@@ -45,7 +45,7 @@ export function Application ({
             The buttons below generate fake data.
             redux-search then automatically indexes that data based on the way the store was configured.
             At that point you can search the data using actions and selectors exported by redux-search.
-            (<a href='https://github.com/treasure-data/redux-search/tree/master/website'>View the source</a>.)
+            (<a href='https://github.com/bvaughn/redux-search/tree/master/website'>View the source</a>.)
           </p>
         </Card>
       </CardWrapper>

@@ -7,11 +7,11 @@ redux-search
 ![NPM license](https://img.shields.io/npm/l/redux-search.svg)
 ![NPM total downloads](https://img.shields.io/npm/dt/redux-search.svg)
 ![NPM monthly downloads](https://img.shields.io/npm/dm/redux-search.svg)
-[![Circle CI badge](https://img.shields.io/circleci/project/treasure-data/redux-search/master.svg)](https://circleci.com/gh/treasure-data/redux-search)
+[![Circle CI badge](https://img.shields.io/circleci/project/bvaughn/redux-search/master.svg)](https://circleci.com/gh/bvaughn/redux-search)
 
 Higher-order Redux library for searching collections of objects. Search algorithms powered by [js-worker-search](https://github.com/bvaughn/js-worker-search).
 
-Check out the live demo at [treasure-data.github.io/redux-search](http://treasure-data.github.io/redux-search/)
+Check out the live demo at [bvaughn.github.io/redux-search](http://bvaughn.github.io/redux-search/)
 
 Or install it yourself with NPM:
 
@@ -22,7 +22,7 @@ npm install --save redux-search
 Overview
 ---------
 
-This README provides a quick introduction of redux-search. For more details refer to the [API documentation](https://github.com/treasure-data/redux-search/tree/master/docs).
+This README provides a quick introduction of redux-search. For more details refer to the [API documentation](https://github.com/bvaughn/redux-search/tree/master/docs).
 
 redux-search searches collections of documents and returns results as an `Array` of document ids. It is important to note that the documents themselves aren't returned. This is because the actual search is performed in a web-worker thread for performance reasons. In order to avoid serializing the documents and passing them back and forth, redux-search simply passes their ids.
 

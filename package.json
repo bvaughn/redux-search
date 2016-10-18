@@ -27,14 +27,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/treasure-data/redux-search.git"
+    "url": "git+https://github.com/bvaughn/redux-search.git"
   },
   "author": "Treasure Data",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/treasure-data/redux-search/issues"
+    "url": "https://github.com/bvaughn/redux-search/issues"
   },
-  "homepage": "https://github.com/treasure-data/redux-search#readme",
+  "homepage": "https://github.com/bvaughn/redux-search#readme",
   "keywords": [
     "redux",
     "search",
