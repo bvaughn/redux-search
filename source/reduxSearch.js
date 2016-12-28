@@ -14,7 +14,7 @@ import SearchApi from './SearchApi'
  *     (1) an array of searchable field names (eg. ["name", "description"])
  *     (2) a custom indexing function (eg. ({ resources: Iterable<Object>, indexDocument: Function }))
  * • resourceSelector:
- *     Selector responsible for returning an iterable resouce map for a given, searchable resource.
+ *     Selector responsible for returning an iterable resource map for a given, searchable resource.
  *     This function should be capable of returning a map for each resource listed in :resourceIndexes.
  *     Its signature should look like this: (resourceName: string, state: Object): Iterable<Object>
  *     If this value is specified then the search index will be automatically built/updated whenever resources change.
