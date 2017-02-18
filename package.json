@@ -1,6 +1,6 @@
 {
   "name": "redux-search",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Redux bindings for client-side search",
   "main": "dist/commonjs/index.js",
   "module": "dist/es/index.js",
@@ -40,6 +40,9 @@
     "search",
     "filter",
     "react"
+  ],
+  "files": [
+    "dist"
   ],
   "standard": {
     "parser": "babel-eslint",
