@@ -65,7 +65,6 @@ export default class SubscribableSearchApi {
       tokenizePattern: this._tokenizePattern,
       caseSensitive: this._caseSensitive
     })
-    console.log('aftersearch')
 
     if (Array.isArray(fieldNamesOrIndexFunction)) {
       if (resources.forEach instanceof Function) {

@@ -10,7 +10,6 @@ function getSearchApi ({ indexMode, tokenizePattern, caseSensitive } = {}) {
 
   // Single-threaded Search API for easier testing
   const searchApi = new SearchApi({ indexMode, tokenizePattern, caseSensitive })
-  console.log('beforeindex')
   searchApi.indexResource({
     fieldNamesOrIndexFunction: ['name', 'description'],
     resourceName: 'documents',
@@ -23,7 +22,6 @@ function getSearchApi ({ indexMode, tokenizePattern, caseSensitive } = {}) {
 
 /** Simple smoke test of non-web-worker based SearchApi */
 test('SearchApi should return documents ids for any searchable field matching a query', async t => {
-  console.log('before searchapi')
   const searchApi = getSearchApi()
   const ids = await searchApi.performSearch('documents', 'One')
   t.equal(ids.length, 1)
