@@ -104,6 +104,31 @@ const finalCreateStore = compose(
 )(createStore)
 ```
 
+#### Custom word boundaries (tokenization) and case-sensitivity
+
+You can also pass parameters to the SearchApi constructor that customize the way the
+search splits up the text into words (tokenizes) and change the search from the default
+case-insensitive to case-sensitive:
+
+```js
+import { reduxSearch, SearchApi } from 'redux-search'
+
+const finalCreateStore = compose(
+  // Other middleware ...
+  reduxSearch({
+    resourceIndexes: { ... },
+    resourceSelector: (resourceName, state) => state.resources.get(resourceName),
+    searchApi: new SearchApi({
+      // split on all non-alphanumeric characters,
+      // so this/that gets split to ['this','that'], for example
+      tokenizePattern: /[^a-z0-9]+/,
+      // make the search case-sensitive
+      caseSensitive: true
+    })
+  })
+)(createStore)
+```
+
 #### Connecting a Component
 
 redux-search provides selectors and action-creators for easily connecting components with the search state. For example, using `reselect` you might connect your component like so:

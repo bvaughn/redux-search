@@ -1,5 +1,27 @@
 # Changelog
 
+# 2.4.0
+Added support for custom tokenize patterns and case-sensitive searches (supported in `js-worker-search` version 1.1.3). Usage is similar to index mode: To override the defaults (tokenize on whitespace only and case-insensitive), pass a configured `SearchApi` argument to the `reduxSearch` middleware, like so:
+
+```js
+import { reduxSearch, SearchApi } from 'redux-search'
+
+const finalCreateStore = compose(
+  // Other middleware ...
+  reduxSearch({
+    resourceIndexes: { ... },
+    resourceSelector: (resourceName, state) => state.resources.get(resourceName),
+    searchApi: new SearchApi({
+      // split on all non-alphanumeric characters,
+      // so this/that gets split to ['this','that'], for example
+      tokenizePattern: /[^a-z0-9]+/,
+      // make the search case-sensitive
+      caseSensitive: true
+    })
+  })
+)(createStore)
+```
+
 # 2.3.2
 Builds updated to depend on Babel's `babel-runtime` rather than referencing global `babelHelpers`.
 Added `module` attribute to `package.json` to point Webpack 2 towards ES module dist.

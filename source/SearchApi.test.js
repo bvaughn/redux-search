@@ -2,16 +2,19 @@ import test from 'tape'
 import { INDEX_MODES } from 'js-worker-search'
 import SearchApi from './SearchApi'
 
-function getSearchApi ({ indexMode } = {}) {
+function getSearchApi ({ indexMode, tokenizePattern, caseSensitive } = {}) {
   const documentA = {id: 1, name: 'One', description: 'The first document'}
   const documentB = {id: 2, name: 'Two', description: 'The second document'}
   const documentC = {id: 3, name: 'Three', description: 'The third document'}
+  const documentD = {id: 4, name: 'Four', description: 'The 4th (fourth) document'}
 
-  const searchApi = new SearchApi({ indexMode }) // Single-threaded Search API for easier testing
+  // Single-threaded Search API for easier testing
+  const searchApi = new SearchApi({ indexMode, tokenizePattern, caseSensitive })
+  console.log('beforeindex')
   searchApi.indexResource({
     fieldNamesOrIndexFunction: ['name', 'description'],
     resourceName: 'documents',
-    resources: [ documentA, documentB, documentC ],
+    resources: [ documentA, documentB, documentC, documentD ],
     state: {}
   })
 
@@ -20,6 +23,7 @@ function getSearchApi ({ indexMode } = {}) {
 
 /** Simple smoke test of non-web-worker based SearchApi */
 test('SearchApi should return documents ids for any searchable field matching a query', async t => {
+  console.log('before searchapi')
   const searchApi = getSearchApi()
   const ids = await searchApi.performSearch('documents', 'One')
   t.equal(ids.length, 1)
@@ -62,6 +66,33 @@ test('SearchApi should pass through the correct :indexMode for EXACT_WORDS', asy
 
   const noMatches = await searchApi.performSearch('documents', 'seco')
   t.equal(noMatches.length, 0)
+
+  t.end()
+})
+
+test('SearchApi should pass through the correct :tokenizePattern', async t => {
+  const searchApi = getSearchApi({
+    tokenizePattern: /[^a-z0-9]+/
+  })
+
+  const matches = await searchApi.performSearch('documents', 'fourth')
+  t.equal(matches.length, 1)
+  t.equal(matches[0], 4)
+
+  t.end()
+})
+
+test('SearchApi should pass through the correct :caseSensitive bit', async t => {
+  const searchApi = getSearchApi({
+    caseSensitive: true
+  })
+
+  let matches = await searchApi.performSearch('documents', 'Second')
+  t.equal(matches.length, 0)
+
+  matches = await searchApi.performSearch('documents', 'second')
+  t.equal(matches.length, 1)
+  t.equal(matches[0], 2)
 
   t.end()
 })
