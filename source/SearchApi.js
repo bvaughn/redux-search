@@ -60,6 +60,14 @@ export default class SubscribableSearchApi {
    * @param state State object to be passed to custom resource-indexing functions
    */
   indexResource ({ fieldNamesOrIndexFunction, resourceName, resources, state }) {
+    // If this resource has already been indexed,
+    // Terminate the web worker before re-indexing.
+    // This prevents a memory leak (see issue #70).
+    const previousSearch = this._resourceToSearchMap[resourceName];
+    if (previousSearch !== undefined) {
+      previousSearch.terminate()
+    }
+
     const search = new Search({
       indexMode: this._indexMode,
       tokenizePattern: this._tokenizePattern,
