@@ -1,5 +1,8 @@
 # Changelog
 
+# 2.4.1
+Fixes memory leak when re-indexing resource. ([@LrsK](https://github.com/LrsK) - [#74](https://github.com/bvaughn/redux-search/pull/74))
+
 # 2.4.0
 Added support for custom tokenize patterns and case-sensitive searches (supported in `js-worker-search` version 1.1.3). Usage is similar to index mode: To override the defaults (tokenize on whitespace only and case-insensitive), pass a configured `SearchApi` argument to the `reduxSearch` middleware, like so:
 
