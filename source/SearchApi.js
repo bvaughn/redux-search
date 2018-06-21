@@ -63,7 +63,7 @@ export default class SubscribableSearchApi {
     // If this resource has already been indexed,
     // Terminate the web worker before re-indexing.
     // This prevents a memory leak (see issue #70).
-    const previousSearch = this._resourceToSearchMap[resourceName];
+    const previousSearch = this._resourceToSearchMap[resourceName]
     if (previousSearch !== undefined) {
       previousSearch.terminate()
     }
