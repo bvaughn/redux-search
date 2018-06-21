@@ -60,6 +60,11 @@ export default class SubscribableSearchApi {
    * @param state State object to be passed to custom resource-indexing functions
    */
   indexResource ({ fieldNamesOrIndexFunction, resourceName, resources, state }) {
+    // Terminate worker in existing SearchAPI instance
+    if (this._resourceToSearchMap[resourceName]) {
+      this._resourceToSearchMap[resourceName].terminate()
+    }
+
     const search = new Search({
       indexMode: this._indexMode,
       tokenizePattern: this._tokenizePattern,
