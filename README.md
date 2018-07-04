@@ -69,7 +69,7 @@ const enhancer = compose(
 )
 
 // Note: passing enhancer as the last argument to createStore requires redux@>=3.1.0
-const store = createStore(reducer, initialState, enhancer)
+const store = createStore(rootReducer, initialState, enhancer)
 ```
 
 #### Customizing Search Index
