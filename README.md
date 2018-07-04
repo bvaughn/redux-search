@@ -41,7 +41,7 @@ redux-search watches the store for changes to searchable collections and automat
 
 ```javascript
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import { reducer as searchReducer, reduxSearch } from 'redux-search'
+import { searchReducer, reduxSearch } from 'redux-search'
 
 // Configure reducer to store state at state.search
 // You can store it elsewhere but you will need to supply your own :searchStateSelector
@@ -69,7 +69,7 @@ const enhancer = compose(
 )
 
 // Note: passing enhancer as the last argument to createStore requires redux@>=3.1.0
-const store = createStore(reducer, initialState, enhancer)
+const store = createStore(rootReducer, initialState, enhancer)
 ```
 
 #### Customizing Search Index
