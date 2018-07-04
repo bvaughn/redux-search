@@ -41,7 +41,7 @@ redux-search watches the store for changes to searchable collections and automat
 
 ```javascript
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
-import { reducer as searchReducer, reduxSearch } from 'redux-search'
+import { searchReducer, reduxSearch } from 'redux-search'
 
 // Configure reducer to store state at state.search
 // You can store it elsewhere but you will need to supply your own :searchStateSelector
