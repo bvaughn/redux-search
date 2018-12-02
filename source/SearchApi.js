@@ -10,10 +10,11 @@ export default class SubscribableSearchApi {
   /**
    * Constructor.
    */
-  constructor ({ indexMode, tokenizePattern, caseSensitive } = {}) {
+  constructor ({ indexMode, tokenizePattern, caseSensitive, matchAnyToken } = {}) {
     this._indexMode = indexMode
     this._tokenizePattern = tokenizePattern
     this._caseSensitive = caseSensitive
+    this._matchAnyToken = matchAnyToken
     this._resourceToSearchMap = {}
 
     // Subscribers
@@ -71,7 +72,8 @@ export default class SubscribableSearchApi {
     const search = new Search({
       indexMode: this._indexMode,
       tokenizePattern: this._tokenizePattern,
-      caseSensitive: this._caseSensitive
+      caseSensitive: this._caseSensitive,
+      matchAnyToken: this._matchAnyToken
     })
 
     if (Array.isArray(fieldNamesOrIndexFunction)) {

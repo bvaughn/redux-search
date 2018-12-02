@@ -104,11 +104,12 @@ const finalCreateStore = compose(
 )(createStore)
 ```
 
-#### Custom word boundaries (tokenization) and case-sensitivity
+#### Custom word boundaries (tokenization), case-sensitivity and partial token matching
 
-You can also pass parameters to the SearchApi constructor that customize the way the
-search splits up the text into words (tokenizes) and change the search from the default
-case-insensitive to case-sensitive:
+You can also pass parameters to the SearchApi constructor that customize the
+way the search splits up the text into words (tokenizes), change the search
+from the default case-insensitive to case-sensitive and/or enable matching on
+any search token (changing the search filtering from AND to OR):
 
 ```js
 import { reduxSearch, SearchApi } from 'redux-search'
@@ -124,6 +125,9 @@ const finalCreateStore = compose(
       tokenizePattern: /[^a-z0-9]+/,
       // make the search case-sensitive
       caseSensitive: true
+      // make the search match any search token. The results will be sorted by
+      // the number of matching tokens in descending order.
+      matchAnyToken: true
     })
   })
 )(createStore)

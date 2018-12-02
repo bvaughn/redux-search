@@ -2,14 +2,14 @@ import test from 'tape'
 import { INDEX_MODES } from 'js-worker-search'
 import SearchApi from './SearchApi'
 
-function getSearchApi ({ indexMode, tokenizePattern, caseSensitive } = {}) {
+function getSearchApi ({ indexMode, tokenizePattern, caseSensitive, matchAnyToken } = {}) {
   const documentA = {id: 1, name: 'One', description: 'The first document'}
   const documentB = {id: 2, name: 'Two', description: 'The second document'}
   const documentC = {id: 3, name: 'Three', description: 'The third document'}
   const documentD = {id: 4, name: 'Four', description: 'The 4th (fourth) document'}
 
   // Single-threaded Search API for easier testing
-  const searchApi = new SearchApi({ indexMode, tokenizePattern, caseSensitive })
+  const searchApi = new SearchApi({ indexMode, tokenizePattern, caseSensitive, matchAnyToken })
   searchApi.indexResource({
     fieldNamesOrIndexFunction: ['name', 'description'],
     resourceName: 'documents',
@@ -91,6 +91,19 @@ test('SearchApi should pass through the correct :caseSensitive bit', async t => 
   matches = await searchApi.performSearch('documents', 'second')
   t.equal(matches.length, 1)
   t.equal(matches[0], 2)
+
+  t.end()
+})
+
+test('SearchApi should pass through the correct :matchAnyToken bit', async t => {
+  const searchApi = getSearchApi({
+    matchAnyToken: true
+  })
+
+  const matches = await searchApi.performSearch('documents', 'first two second')
+  t.equal(matches.length, 2)
+  t.equal(matches[0], 2) // Second document has more matching tokens
+  t.equal(matches[1], 1)
 
   t.end()
 })
