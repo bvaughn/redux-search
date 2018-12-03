@@ -125,8 +125,9 @@ const finalCreateStore = compose(
       tokenizePattern: /[^a-z0-9]+/,
       // make the search case-sensitive
       caseSensitive: true
-      // make the search match any search token. The results will be sorted by
-      // the number of matching tokens in descending order.
+      // return results for documents containing ANY of the search terms.
+      // (by default results are only returned for documents containing ALL of the terms.)
+      // if true, results are sorted so that documents with more matching tokens come first.
       matchAnyToken: true
     })
   })
