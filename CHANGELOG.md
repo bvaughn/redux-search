@@ -1,5 +1,8 @@
 # Changelog
 
+# 2.5.0
+Added support for optional OR searches (documents matching only some of the search tokens) ([@dlebech](https://github.com/dlebech) - [#82](https://github.com/bvaughn/redux-search/pull/82))
+
 # 2.4.1
 Fixes memory leak when re-indexing resource. ([@LrsK](https://github.com/LrsK) - [#74](https://github.com/bvaughn/redux-search/pull/74))
 
