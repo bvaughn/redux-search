@@ -3049,10 +3049,10 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-worker-search@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/js-worker-search/-/js-worker-search-1.4.0.tgz#504f06cca63591be743a5e9a52e3544cb09ac7d4"
-  integrity sha512-xhRydfK5+/wBifybewZQQSG/2YWp/jghKiUJxyrMcoRsy3bhoeRY6cJH6FajqQAlaDLqnTYXkTK8TH15qNTsuw==
+js-worker-search@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/js-worker-search/-/js-worker-search-1.4.1.tgz#beb5ac0df3f37900ff2ad676951833d3913b3192"
+  integrity sha512-5KCio6angmP+AXX8X2pPtjw1h3BCrmEmwGv2MdkXhl3+7g/2NTHOMhUh8bZqacp8R9LjhTT2bGr+f7RdB8KFZw==
   dependencies:
     flow-bin "^0.50.0"
     uuid "^2.0.1"
