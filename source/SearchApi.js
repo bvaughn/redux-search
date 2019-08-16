@@ -10,11 +10,12 @@ export default class SubscribableSearchApi {
   /**
    * Constructor.
    */
-  constructor ({ caseSensitive, indexMode, matchAnyToken, tokenizePattern } = {}) {
+  constructor ({ caseSensitive, indexMode, matchAnyToken, tokenizePattern, searchOnIndexUpdate } = { searchOnIndexUpdate: true }) {
     this._caseSensitive = caseSensitive
     this._indexMode = indexMode
     this._matchAnyToken = matchAnyToken
     this._tokenizePattern = tokenizePattern
+    this.searchOnIndexUpdate = searchOnIndexUpdate
 
     this._resourceToSearchMap = {}
 

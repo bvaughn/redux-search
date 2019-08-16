@@ -77,7 +77,9 @@ export default function reduxSearch ({
               resources: resource,
               state: nextState
             }))
-            store.dispatch(actions.search(resourceName)(searchString))
+            if (searchApi.searchOnIndexUpdate) {
+              store.dispatch(actions.search(resourceName)(searchString))
+            }
           }
         }
       })
