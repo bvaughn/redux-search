@@ -82,7 +82,7 @@ test('reduxSearch should auto-index searchable resources if a resourceSelector i
   // Simulate a resource update
   store.dispatch({ type: 'fakeResourceUpdate' })
 
-  // Called once on resource-change and once after search has been re-run
+  // Called once on resource-change
   t.equal(resourceSelectorCalls.length, 1)
   t.equal(resourceSelectorCalls[0].resourceName, 'users')
   t.equal(searchApi.indexResourceCalls.length, 1)
