@@ -12,10 +12,11 @@ function createMiddleware (params = {}) {
 }
 
 class MockSearchApi {
-  constructor () {
+  constructor ({ searchOnIndexUpdate } = { searchOnIndexUpdate: true }) {
     this.indexResourceCalls = []
     this.performSearchCalls = []
     this.subscribeCalls = []
+    this.searchOnIndexUpdate = searchOnIndexUpdate
   }
 
   indexResource ({ fieldNamesOrIndexFunction, resourceName, resources, state }) {
@@ -60,6 +61,30 @@ test('reduxSearch should auto-index searchable resources if a resourceSelector i
   t.equal(resourceSelectorCalls.length, 2)
   t.equal(resourceSelectorCalls[0].resourceName, 'users')
   t.equal(resourceSelectorCalls[1].resourceName, 'users')
+  t.equal(searchApi.indexResourceCalls.length, 1)
+  t.end()
+})
+
+test('reduxSearch should auto-index searchable resources if a resourceSelector is specified and should not autosearch if the searchApi searchOnIndexUpdate option is false', t => {
+  const searchApi = new MockSearchApi({ searchOnIndexUpdate: false })
+  const resourceIndexes = { users: ['name'] }
+  const resources = {}
+  const resourceSelectorCalls = []
+  const resourceSelector = (resourceName, nextState) => {
+    resourceSelectorCalls.push({ resourceName, nextState })
+    return resources
+  }
+
+  const store = createMiddleware({ resourceIndexes, resourceSelector, searchApi })
+
+  t.equal(resourceSelectorCalls.length, 0)
+
+  // Simulate a resource update
+  store.dispatch({ type: 'fakeResourceUpdate' })
+
+  // Called once on resource-change and once after search has been re-run
+  t.equal(resourceSelectorCalls.length, 1)
+  t.equal(resourceSelectorCalls[0].resourceName, 'users')
   t.equal(searchApi.indexResourceCalls.length, 1)
   t.end()
 })
